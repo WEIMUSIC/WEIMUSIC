@@ -1440,6 +1440,9 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 .nvg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;padding:6px 2px}
 .nvc{display:flex;flex-direction:column;align-items:center;gap:8px;padding:22px 16px;border-radius:22px;border:4px solid #fff6cf;background:linear-gradient(160deg,#fff7d6,#ffe08a);color:#4a2a00;cursor:pointer;box-shadow:0 6px 0 #b9852a;font-family:inherit;text-align:center}
 .nvc:active{transform:translateY(3px);box-shadow:0 3px 0 #b9852a}
+.tmrow{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 10px}.nvc.tmb{flex:1 1 280px;flex-direction:row;justify-content:center;gap:14px;padding:12px 16px;box-sizing:border-box;flex-wrap:wrap}
+.tck{gap:10px 18px}.tck label{font-size:20px;font-weight:900;display:flex;align-items:center;gap:6px;background:#fff;border:3px solid #1f2a55;border-radius:14px;padding:8px 14px;cursor:pointer}.tck input{width:24px;height:24px}
+.duel{display:flex;align-items:center;justify-content:center;gap:18px;margin:26px 0 14px;flex-wrap:wrap}.dc{position:relative;min-width:170px;padding:18px 22px;border-radius:24px;border:5px solid var(--c);background:#fff;text-align:center}.dc.win{transform:scale(1.12);box-shadow:0 0 0 4px #ffd23f,0 0 30px #ffd23f}.dn{font-size:22px;font-weight:900;color:var(--c);text-shadow:0 0 1px #5a4a00}.ds{font-size:64px;font-weight:900;line-height:1.1;color:#1f2a55}.dvs{font-size:34px;font-weight:900;color:#c026d3}.dcr{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:42px}.nvc.tmb i{font-size:34px}.nvc.tmb b{font-size:20px}
 .nvc i{font-style:normal;font-size:56px;line-height:1}.nvc b{font-size:24px;font-weight:900}.nvc span{font-size:15px;font-weight:700;opacity:.85}
 #hubc{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:14px;z-index:2;width:min(560px,64vw);text-align:center}
 #hubc h1{margin:0;color:#fff;font-size:clamp(38px,6.4vw,70px);font-weight:900;text-shadow:0 5px 0 var(--brown),0 0 22px rgba(255,214,107,.85);-webkit-text-stroke:2px var(--brown);letter-spacing:2px}
@@ -1627,6 +1630,13 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 #mpinfo .qr{background:#fff8e1;border:4px solid #e0a83a;box-shadow:0 -6px 20px rgba(0,0,0,.3);margin:0}
 .mpempty{padding:40px 20px;text-align:center;color:#1d2b4f}
 @media (max-width:700px){.mptip{display:none}}
+.mg .mgg{font-size:26px;font-weight:900;text-align:center;margin:8px 0;color:var(--gold)}
+.mgp{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin:8px 0}
+.mgc{border:3px solid var(--c);border-radius:14px;padding:8px 10px;display:flex;flex-direction:column;gap:4px;background:#0003;font-size:16px}
+.mgc b{font-size:18px}.mgc em{font-style:normal;background:#0006;border-radius:8px;padding:6px;font-size:15px}.mgc button{font-size:15px;padding:4px 10px;align-self:flex-start}
+.mgq{text-align:center;margin:10px 0}.mgq h3{font-size:22px;margin:6px}.mgdice{font-size:64px;font-weight:900}
+.mgq .opts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.mglog{background:#0004;border-radius:12px;padding:8px 12px;font-size:15px;text-align:left}
 </style>
 </head>
 <body>
@@ -1884,7 +1894,7 @@ function newRec(){
  requestAnimationFrame(fr)}
 function finish(w){if(G.over)return;if(G.hd)endHold();G.over=true;const N=G.notes.length,acc=(G.np+G.ng*.85)/N,s=!w?0:acc>=.9?3:acc>=.7?2:acc>=.4?1:0,sc=SC100();
  if(s>(STARS[G.name]||0)){STARS[G.name]=s;sv("rgStars",STARS)}
- let BEST={};try{BEST=JSON.parse(localStorage.getItem("rgBest100")||"{}")}catch(e){}const nb=w&&sc>(BEST[G.name]||0);if(nb){BEST[G.name]=sc;sv("rgBest100",BEST)}
+ let BEST={};try{BEST=JSON.parse(localStorage.getItem("rgBest100")||"{}")}catch(e){}const nb=w&&G.name[0]!=="_"&&sc>(BEST[G.name]||0);if(nb){BEST[G.name]=sc;sv("rgBest100",BEST)}
  $("otxt").textContent=w?"🎉 守護成功！":"💥 城堡失守…";
  $("stars").innerHTML=[0,1,2].map(i=>`<span class="sb${i<s?" on":""}" style="animation-delay:${.25+i*.3}s">★</span>`).join("");
  $("ostat").innerHTML=(nb?`<div class="best">🏆 新紀錄！</div>`:"")+`<div class="sg"><div><b>${sc}</b>得分（滿分 100）</div><div><b>${G.maxc}</b>最高連擊</div><div><b>${G.ltot?G.lok+" / "+G.ltot:"—"}</b>長音滿分</div><div><b style="color:#ffe14d">${G.np}</b>完美</div><div><b>${G.ng}</b>很好</div><div><b style="color:#ff9a9a">${G.nm+Math.max(0,N-G.hits-G.nm)}</b>漏掉</div></div>`;
@@ -2135,7 +2145,12 @@ const AC=()=>{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.r
 function loop(){cancelAnimationFrame(RAF);const f=()=>{try{D&&(D.kind==="f"?fTick():sTick())}catch(e){}RAF=requestAnimationFrame(f)};f()}
 function dexit(){cancelAnimationFrame(RAF);D=TM=null;DR.hidden=true;$("menu").hidden=false;menu()}
 async function startBasic(){try{await start("_basic")}catch(e){}if(G&&G.name==="_basic")$("title").textContent="指法基本練習"}
-function openMode(m){if(m==="b"){startBasic();return}$("menu").hidden=true;DR.hidden=false;D=TM=null;m==="t"?tSetup():lvPick(m)}
+const DUELOPEN=false;let TOK=false;const TPG=()=>{try{return localStorage.getItem("rgTPin")||""}catch(e){return""}};
+function tPin(){const o=TPG();if(o){const c=prompt("請輸入目前的老師密碼");if(c===null)return;if(c!==o){alert("密碼不對");return}}
+ const n=prompt("設定新的老師密碼（留空 = 取消密碼，決鬥場不再上鎖）");if(n===null)return;try{n.trim()?localStorage.setItem("rgTPin",n.trim()):localStorage.removeItem("rgTPin")}catch(e){}TOK=true;alert(n.trim()?"已設定老師密碼":"已取消密碼")}
+function tGate(){if(TOK)return true;const o=TPG();if(!o){const n=prompt("決鬥場只有老師能開啟。\n第一次使用，請設定老師密碼（至少 4 個字）：");if(n===null)return false;if(n.trim().length<4){alert("密碼至少 4 個字");return false}try{localStorage.setItem("rgTPin",n.trim())}catch(e){}TOK=true;return true}
+ const c=prompt("🔒 決鬥場：請輸入老師密碼");if(c===null)return false;if(c!==o){alert("密碼不對");return false}TOK=true;return true}
+function openMode(m){if(m==="b"){startBasic();return}if(m==="d"&&!DUELOPEN){alert("🔒 決鬥場尚未開放");return}if(m==="d"&&!tGate())return;$("menu").hidden=true;DR.hidden=false;D=TM=null;m==="t"?tSetup():m==="d"?dSetup():lvPick(m)}
 function lvPick(k){PK="f";D=null;$("dtitle").textContent="🖐 指法特訓";
  DB.innerHTML=`<h2>看音名，吹出正確指法</h2><p class="sub">選一個關卡</p><div class="lv">${LF.map((x,i)=>`<button data-lv="${i}">第 ${i+1} 關　${x[0]}</button>`).join("")}</div>${soloHTML()}`}
 // 指法特訓
@@ -2216,24 +2231,166 @@ function fOK(y){if(y&&FSND)chime();const o=D.cur;D.res.push({S:o.S,ms:performanc
 function fEnd(){cancelAnimationFrame(RAF);if(FSND)[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.22,.2),i*140));const r=D.res.filter(x=>x.y),ok=D.ok,avg=r.reduce((a,x)=>a+x.ms,0)/(ok||1)/1000,slow=r.sort((a,b)=>b.ms-a.ms).slice(0,2).map(x=>x.S).join("、"),st=ok>=9&&avg<6?3:ok>=7?2:ok>=4?1:0;
  DB.innerHTML=`<h2 class="sb on">${"★".repeat(st)}${"☆".repeat(3-st)}</h2><p>答對 <b>${ok}</b> / ${D.N}　平均 <b>${avg.toFixed(1)}</b> 秒</p>${ok?`<p>反應最慢的音：<b>${esc(slow)}</b>，多練幾次！</p>`:""}<div class="opts"><button class="big" data-lv="${D.lv}">再練一次</button><button data-act="pick">選關卡</button></div>`}
 // 小隊輪流
-const TE=["🔴","🟡","🟢","🔵","🟣","⚫"],TC=["#ef4444","#facc15","#22c55e","#3b82f6","#a855f7","#111111"],tnm=i=>TE[i]+" 第"+(i+1)+"隊";
+const TE=["🔴","🟡","🟢","🔵","🟣","⚫"],TC=["#ef4444","#facc15","#22c55e","#3b82f6","#a855f7","#111111"],TN=["紅隊・第一組","黃隊・第二組","綠隊・第三組","藍隊・第四組","紫隊・第五組","黑隊・其他"],tid=i=>TM&&TM.ids?TM.ids[i]:i,tnm=i=>TE[tid(i)]+" "+TN[tid(i)];
 function tSetup(){$("dtitle").textContent="🏫 小隊輪流";const o=(a,f)=>a.map(f).join("");
- DB.innerHTML=`<div class="tm"><h2>小隊輪流</h2><p class="sub">全班看大螢幕，一次一位同學上場，各隊累積分數。</p><div class="set" style="justify-content:center"><label>隊數<select id="tn">${o([2,3,4,5,6],n=>`<option>${n}</option>`)}</select></label><label>曲目<select id="ts">${songOpts()}</select></label><label>每次吹<select id="tl">${o([1,2,4],n=>`<option value="${n}">${n} 句</option>`)}</select></label><label>每隊輪<select id="tr">${o([1,2,3],n=>`<option value="${n}">${n} 次</option>`)}</select></label></div><button class="big" data-act="tgo">開始</button></div>`}
-function tGo(){const n=+$("tn").value,song=$("ts").value,ph=SONGS[song].split(/\s*[|｜]\s*/).filter(Boolean),l=+$("tl").value;
- TM={n,song,ph,l,s:Math.ceil(ph.length/l),R:+$("tr").value,t:0,sc:Array(n).fill(0)};TM.tot=n*TM.R;tTurn()}
-const tbd=()=>{const m=Math.max(1,...TM.sc),ord=TM.sc.map((v,i)=>i).sort((a,b)=>TM.sc[b]-TM.sc[a]||a-b);let rk=0,pv=null;return`<div class="bd">${ord.map((i,p)=>{if(TM.sc[i]!==pv){rk=p+1;pv=TM.sc[i]}const md=TM.sc[i]>0&&rk<=3?["🥇","🥈","🥉"][rk-1]:rk+".";return`<div><i style="width:${TM.sc[i]/m*100}%;background:${TC[i]}"></i><span>${md} ${tnm(i)}</span><b>${TM.sc[i]}</b></div>`}).join("")}</div>`};
+ DB.innerHTML=`<div class="tm"><h2>小隊輪流</h2><p class="sub">全班看大螢幕，一次一位同學上場，各隊累積分數。</p><div class="set" style="justify-content:center"><label>曲目<select id="ts">${songOpts()}</select></label><label>每次吹<select id="tl">${o([1,2,4],n=>`<option value="${n}">${n} 句</option>`)}</select></label><label>每隊輪<select id="tr">${o([1,2,3],n=>`<option value="${n}">${n} 次</option>`)}</select></label></div><div class="set tck" style="justify-content:center">${TN.map((n,k)=>`<label><input type="checkbox" value="${k}"${k<2?" checked":""}> ${TE[k]} ${n}</label>`).join("")}</div><button class="big" data-act="tgo">開始</button></div>`}
+function tGo(){const ids=[...DB.querySelectorAll(".tck input:checked")].map(x=>+x.value),n=ids.length;if(n<2){let w=DB.querySelector(".warn");if(!w){DB.insertAdjacentHTML("beforeend",'<p class="warn">請至少勾選 2 個隊伍</p>')}return}const song=$("ts").value,ph=SONGS[song].split(/\s*[|｜]\s*/).filter(Boolean),l=+$("tl").value;
+ TM={n,ids,song,ph,l,s:Math.ceil(ph.length/l),R:+$("tr").value,t:0,sc:Array(n).fill(0)};TM.tot=n*TM.R;tTurn()}
+// 決鬥場：兩隊各自吹同一首曲子，比最後的分數
+// ===== 魔法卡牌賽（決鬥場的第二種玩法）：電子助手版 =====
+const GEM=[["🔴","紅"],["🟡","黃"],["🟢","綠"],["🔵","藍"],["🟣","紫"],["⚪","白"]];
+const MGC=[["add","加分卡","🎲","演奏結束後，擲骰子決定額外加分（1～6 分）。"],["hoho","HO HO HO","🎅","聖誕老人來送分，擲骰子：雙數送 2 分，單數送 5 分。"],["x2","加倍卡","✖️","演奏得分 ×2。"],["luck","幸運女神","👼","擲骰子決定，從「指定組別」轉移多少分給自己。"],["fort","強運女神","🧚","擲骰子決定，從「其他所有組」各轉移多少分給自己。"],["good","好人卡","💖","超級大好人，額外加 3 分。"],["star","巨星卡","⭐","其他演奏家失去演奏機會（手中卡片也失效）。"],["cond","超級指揮家","🎼","任意更換場上「他組」演奏家（數量不限）。"],["steal","搶奪卡","🦹","搶走當回合未使用的卡片一張，並立即使用。"],["up","強制升級","🚀","指定當回合一位演奏者須背譜演出，且不能額外加背譜分。"],["para","寄生卡","🧟","指定當回合「他組」選手一位，演奏分數和他一樣。"],["copy","複製卡","📄","演奏結束後，可複製當回合卡片（已用或未用都可以），並立即使用。"],["half","腰斬卡","🪓","演奏結束後，可指定當回合其中一組，演奏得分砍半（四捨五入）。"],["two","買一送一","🎁","演奏結束後，可再召喚一位同組成員進行演奏，再加一次演奏分。"],["win","強者無敵","💪","在規定時間內吹完，獲得滿分 5 分。"],["rev","復仇卡","😈","將上回合失去的得分加回來；若上回合沒有失分，額外加 3 分。"],["bridge","友誼的橋樑","🌉","指定當回合已有演奏分的兩組，得分相加平分（無法用在自己組別）。"],["boat","友誼的小船","🚤","演奏完後，指定當回合其中一組，演奏得分無效。"],["sky","我的老天卡","😱","其他組扣 3 分。"],["doom","夭壽卡","🌳","當回合其他組，擲骰子決定扣分。"],["null","無效卡","🚫","攻擊效果歸零。（受到攻擊時使用）"],["inv","無敵星星","🌟","所有攻擊都無效，且可以擲骰子進行額外加分。"],["time","時光倒流","⏪","使用此卡，可回到當回合指定時段。"],["bounce","反彈卡","🔁","攻擊者與被攻擊者立場交換。（受到攻擊時使用）"],["refr","折射卡","🔺","遭遇攻擊時，可轉移給其他組（原攻擊組不可轉移）。"]];
+const MGI={};MGC.forEach(c=>MGI[c[0]]={id:c[0],n:c[1],ic:c[2],t:c[3]});
+const MGDEF=["null","inv","bounce","refr"],fN=n=>Number.isInteger(n)?String(n):n.toFixed(1),d6=()=>1+Math.floor(Math.random()*6),shf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const RD=()=>TM.rd,lg=t=>{RD().log.unshift(t)};
+function chg(i,d){const o=TM.sc[i],n=Math.max(0,o+d),a=n-o;TM.sc[i]=n;if(a<0)RD().lost[i]+=-a;return a}
+function scFix(i,ns){const p=RD().perf[i],o=p.score;TM.sc[i]=Math.max(0,TM.sc[i]+ns-o);if(ns<o)RD().lost[i]+=o-ns;p.score=ns}
+function mgSnap(label){const rd=RD();rd.snaps.push({label,sc:[...TM.sc],perf:rd.perf.map(p=>({...p})),lost:[...rd.lost]})}
+function mgRestore(k){const rd=RD(),s=rd.snaps[k];TM.sc=[...s.sc];rd.perf=s.perf.map(p=>({...p}));rd.lost=[...s.lost];rd.snaps.length=k+1}
+function mgSetup(){$("dtitle").textContent="🃏 魔法卡牌賽";
+ const o=(a,f)=>a.map(f).join("");
+ DB.innerHTML=`${dTabs("m")}<div class="tm"><h2>🃏 魔法卡牌賽</h2><p class="sub">每回合抽一顆寶石，各隊的寶石持有者輪流上場、各抽一張魔法卡。演奏後可以啟動卡牌，分數最高的隊伍獲勝。</p><div class="set" style="justify-content:center"><label>曲目<select id="ms">${songOpts()}</select></label><label>速度<select id="msp">${$("speed").innerHTML}</select></label><label>每次吹<select id="ml"><option value="1">1 句</option><option value="2" selected>2 句</option><option value="4">4 句</option><option value="0">全曲</option></select></label><label>回合數<select id="mr">${o([1,2,3,4,5,6],n=>`<option${n===3?" selected":""}>${n}</option>`)}</select></label><label>演奏分滿分<select id="mc"><option value="10" selected>10 分</option><option value="20">20 分</option><option value="25">25 分</option><option value="100">100 分</option></select></label></div><div class="set tck" style="justify-content:center">${TN.map((n,k)=>`<label><input type="checkbox" value="${k}"${k<5?" checked":""}> ${TE[k]} ${n}</label>`).join("")}</div><button class="big" data-act="mgstart">開始卡牌賽</button></div>`;
+ $("msp").value=$("speed").value}
+function mgGo(){const ids=[...DB.querySelectorAll(".tck input:checked")].map(x=>+x.value),n=ids.length;if(n<2){if(!DB.querySelector(".warn"))DB.insertAdjacentHTML("beforeend",'<p class="warn">請至少勾選 2 個隊伍</p>');return}
+ const song=$("ms").value,ph=SONGS[song].split(/\s*[|｜]\s*/).filter(Boolean),lv=+$("ml").value,l=lv?lv:ph.length;$("speed").value=$("msp").value;
+ TM={mg:1,n,ids,song,ph,l,s:Math.ceil(ph.length/l),R:+$("mr").value,scale:+$("mc").value,t:0,sc:Array(n).fill(0),tot:99,round:0,gems:shf([0,1,2,3,4,5]),lastLost:Array(n).fill(0),extra:null,rd:null};mgNewRound()}
+function mgGo2(){TM={...TM,round:0,sc:Array(TM.n).fill(0),gems:shf([0,1,2,3,4,5]),lastLost:Array(TM.n).fill(0),extra:null,rd:null};mgNewRound()}
+function mgNewRound(){const M=TM,r=M.round;if(r>=M.R){mgFinal();return}
+ const idx=[...Array(M.n).keys()],rot=r%M.n,order=idx.slice(rot).concat(idx.slice(0,rot)),deck=shf(MGC.map(c=>c[0]));
+ M.rd={r,gi:M.gems[r%6],order,seg:r%M.s,perf:idx.map(i=>({i,card:deck.pop(),drawn:false,used:false,valid:true,done:false,score:0,blocked:false,memo:false,inv:false,swap:false,show:false})),lost:Array(M.n).fill(0),log:[],snaps:[],q:null,stage:"gem"};
+ mgSnap("回合開始");mgRender()}
+function mgRender(){tBack();const M=TM,rd=M.rd,g=GEM[rd.gi],pf=rd.perf;
+ const cur=rd.order.find(i=>!pf[i].done&&!pf[i].blocked);
+ let h=`<div class="tm mg"><h2>🃏 魔法卡牌賽　第 ${rd.r+1} / ${M.R} 回合</h2>${tbd()}`;
+ if(rd.stage!=="gem")h+=`<div class="mgg">💎 本回合寶石：<b>${g[0]} ${g[1]}寶石</b> 的持有者上場！</div>`;
+ h+=`<div class="mgp">${rd.order.map((i,k)=>{const p=pf[i],c=MGI[p.card];let st=p.blocked?"🚫 失去演奏機會":p.done?`🎼 ${fN(p.score)} 分`:i===cur&&rd.stage!=="gem"?"👉 輪到":"等待上場";
+  let cs=!p.drawn?"":p.used?`🃏 已用「${c.n}」`:!p.valid?"🃏 卡片失效":"🃏 手上有卡（未用）";
+  const tags=(p.memo?" 📖須背譜":"")+(p.swap?" 🔄換演奏者":"")+(p.inv?" 🌟無敵":"");
+  return `<div class="mgc" style="--c:${TC[M.ids[i]]}"><b>${k+1}. ${tnm(i)}</b><span>${st}${tags}</span><span>${cs}</span>${p.drawn&&!p.used&&p.valid?`<button data-mg="show" data-i="${i}">${p.show?"🙈 蓋牌":"👁 看牌"}</button>`:""}${p.show&&p.drawn&&!p.used&&p.valid?`<em>${c.ic} ${c.n}：${c.t}</em>`:""}${p.done&&p.drawn&&!p.used&&p.valid&&!rd.q?`<button class="big" data-mg="use" data-i="${i}">📣 啟動卡牌</button>`:""}</div>`}).join("")}</div>`;
+ h+=`<div class="mgq">`;
+ const q=rd.q;
+ if(q){h+=`<h3>${q.title}</h3>`;
+  if(q.k==="team")h+=`<div class="opts">${q.c.map(i=>`<button class="big" data-mg="team" data-v="${i}">${tnm(i)}${pf[i].done?`（本回合 ${fN(pf[i].score)} 分）`:""}</button>`).join("")}</div>`;
+  else if(q.k==="roll")h+=q.val==null?`<div class="opts"><button class="big" data-mg="roll">🎲 擲骰子</button></div>`:`<div class="mgdice">🎲 ${q.val}</div><div class="opts"><button class="big" data-mg="rollok">確定</button></div>`;
+  else if(q.k==="yn")h+=`<div class="opts"><button class="big" data-mg="yes">${q.y||"使用"}</button><button data-mg="no">${q.n||"不使用"}</button></div>`;
+  else if(q.k==="multi")h+=`<div class="set tck" style="justify-content:center">${q.c.map(i=>`<label><input type="checkbox" value="${i}"> ${tnm(i)}</label>`).join("")}</div><div class="opts"><button class="big" data-mg="multi">確定</button></div>`;
+  else if(q.k==="snap")h+=`<div class="opts" style="flex-direction:column">${rd.snaps.map((s,k)=>`<button data-mg="snap" data-v="${k}">${k+1}. ${s.label}</button>`).join("")}</div>`;
+  else h+=`<div class="opts"><button class="big" data-mg="ok">${q.b||"確定"}</button></div>`;
+  if(q.cancel)h+=`<div class="opts"><button data-mg="cancel">取消</button></div>`}
+ else if(rd.stage==="gem")h+=`<div class="opts"><button class="big" data-mg="gem">💎 抽寶石</button></div>`;
+ else if(cur==null)h+=`<h3>本回合結束！</h3><p class="sub">手上沒用完的卡片作廢。要用卡的話，現在還可以按上面的「啟動卡牌」。</p><div class="opts"><button class="big" data-mg="next">${M.round+1>=M.R?"看最終結果":"下一回合"}</button></div>`;
+ else{const p=pf[cur],c=MGI[p.card];h+=`<h3>輪到 ${tnm(cur)}　${g[0]} ${g[1]}寶石持有者</h3>${p.memo?'<p class="warn">📖 這位演奏者被「強制升級」，須背譜演出</p>':""}`;
+  if(!p.drawn)h+=`<div class="opts"><button class="big" data-mg="draw" data-i="${cur}">🃏 抽魔法卡</button></div>`;
+  else h+=`<p class="sub">已抽到魔法卡，演奏結束後可以啟動。<br><button data-mg="show" data-i="${cur}">${p.show?"🙈 蓋牌":"👁 看牌（只給演奏者看）"}</button></p><div class="opts"><button class="big" data-mg="play" data-i="${cur}">開始吹奏</button></div>`}
+ h+=`</div>`;
+ if(rd.log.length)h+=`<div class="mglog"><b>📜 戰況</b>${rd.log.slice(0,6).map(t=>`<div>${t}</div>`).join("")}</div>`;
+ DB.innerHTML=h+`</div>`}
+const mgQ=q=>{RD().q=q},askTeam=(title,c,cb,cancel)=>mgQ({k:"team",title,c,cb,cancel}),askRoll=(title,cb)=>mgQ({k:"roll",title,cb,val:null}),askYN=(title,cb,y,n)=>mgQ({k:"yn",title,cb,y,n}),askInfo=(title,cb,b)=>mgQ({k:"info",title,cb,b});
+function mgAct(a,d){const M=TM,rd=M.rd;if(!rd)return;const q=rd.q,take=()=>{rd.q=null;return q};
+ switch(a){
+  case "gem":rd.stage="play";lg(`💎 抽到 ${GEM[rd.gi][0]} ${GEM[rd.gi][1]}寶石`);break;
+  case "draw":rd.perf[+d.i].drawn=true;rd.perf[+d.i].show=false;break;
+  case "show":rd.perf[+d.i].show=!rd.perf[+d.i].show;break;
+  case "play":mgStart(+d.i);return;
+  case "use":mgUse(+d.i);break;
+  case "team":take().cb(+d.v);break;
+  case "roll":q.val=d6();break;
+  case "rollok":take().cb(q.val);break;
+  case "yes":take().cb(true);break;
+  case "no":take().cb(false);break;
+  case "ok":take().cb();break;
+  case "multi":{const v=[...DB.querySelectorAll(".mgq input:checked")].map(x=>+x.value);take().cb(v);break}
+  case "snap":take().cb(+d.v);break;
+  case "cancel":rd.q=null;break;
+  case "next":M.round++;M.lastLost=rd.lost.slice();mgNewRound();return;
+ }
+ mgRender()}
+async function mgStart(i){const M=TM,rd=M.rd;M.curP=i;M68.has(M.song)?M68.add("_seg"):M68.delete("_seg");SONGS._seg=M.ph.slice(rd.seg*M.l,rd.seg*M.l+M.l).join(" | ");DR.hidden=true;try{await start("_seg")}catch(e){}
+ if(!G||G.name!=="_seg"){DR.hidden=false;DB.insertAdjacentHTML("beforeend",'<p class="warn">麥克風沒有開啟：請回選單按「開啟麥克風」後再來。</p>');return}$("title").textContent=tnm(i)+"・"+M.song}
+function mgDone(w){const M=TM,rd=M.rd,i=M.curP,sc=Math.round(SC100()*M.scale/100),p=rd.perf[i];delete STARS._seg;sv("rgStars",STARS);
+ if(M.extra!=null){p.score+=sc;M.sc[i]+=sc;M.extra=null;lg(`🎁 ${tnm(i)} 買一送一，再加 ${sc} 分`);mgSnap(`${tnm(i)} 買一送一加演（${sc} 分）`)}
+ else{p.done=true;p.score=sc;p.won=!!w;M.sc[i]+=sc;lg(`🎼 ${tnm(i)} 演奏得 ${sc} 分`);mgSnap(`${tnm(i)} 演奏完（${sc} 分）`)}
+ $("otxt").textContent=tnm(i)+" 得 "+sc+" 分";$("ostat").innerHTML="";$("again").hidden=$("tomenu").hidden=true;
+ let b=$("tnx");if(!b){b=document.createElement("button");b.id="tnx";b.className="big";$("over").appendChild(b)}b.hidden=false;b.textContent="回到卡牌賽";b.onclick=mgRender}
+function mgUse(i){const rd=RD(),p=rd.perf[i],c=MGI[p.card];if(!p.drawn||p.used||!p.valid)return;
+ if(MGDEF.includes(p.card)&&p.card!=="inv"){askInfo(`「${c.n}」是防禦卡：${c.t}<br>其他隊對 ${tnm(i)} 發動攻擊時，程式會自動問你要不要使用。`,()=>{});RD().q.cancel=false;return}
+ askYN(`${tnm(i)} 要啟動「${c.n}」嗎？<br><small>${c.t}</small>`,y=>{if(!y)return;p.used=true;p.show=false;mgPlay(i,p.card,()=>{mgSnap(`${tnm(i)} 使用「${c.n}」`)})},"啟動","取消")}
+function mgHit(a,vs,eff,done){const rd=RD(),list=[...vs];(function nx(){if(!list.length){done();return}const v=list.shift(),dp=rd.perf[v];
+  if(dp.inv){lg(`🌟 ${tnm(v)} 無敵，攻擊無效`);nx();return}
+  if(dp.drawn&&dp.valid&&!dp.used&&MGDEF.includes(dp.card)){const c=MGI[dp.card];
+   askYN(`${tnm(a)} 對 ${tnm(v)} 發動攻擊！<br>${tnm(v)} 手上有「${c.n}」，要使用嗎？`,y=>{
+    if(!y){eff(a,v);nx();return}
+    dp.used=true;
+    if(dp.card==="null"){lg(`🚫 ${tnm(v)} 使用無效卡，攻擊歸零`);nx()}
+    else if(dp.card==="inv"){lg(`🌟 ${tnm(v)} 使用無敵星星，攻擊無效`);askRoll(`${tnm(v)} 擲骰子額外加分`,n=>{chg(v,n);lg(`🌟 ${tnm(v)} 額外加 ${n} 分`);nx()})}
+    else if(dp.card==="bounce"){lg(`🔁 ${tnm(v)} 使用反彈卡，攻擊者與被攻擊者交換`);eff(v,a);nx()}
+    else{const cs=[...Array(TM.n).keys()].filter(t=>t!==a&&t!==v);if(!cs.length){lg("🔺 沒有可轉移的隊伍，攻擊歸零");nx();return}askTeam(`${tnm(v)} 要把攻擊轉移給誰？`,cs,t=>{lg(`🔺 ${tnm(v)} 用折射卡轉移給 ${tnm(t)}`);eff(a,t);nx()})}
+   },"使用","不使用");return}
+  eff(a,v);nx()})()}
+function mgPlay(a,cid,done){const M=TM,rd=RD(),c=MGI[cid],pf=rd.perf,all=[...Array(M.n).keys()],oth=all.filter(t=>t!==a),nm=tnm,none=t=>askInfo(t,()=>done());
+ const fin=t=>{if(t)lg(t);done()};
+ const xfer=n=>(f,to)=>{const m=Math.min(n,M.sc[to]);chg(to,-m);M.sc[f]+=m;lg(`${c.ic} ${nm(f)} 從 ${nm(to)} 轉移 ${m} 分`)};
+ switch(cid){
+  case "add":askRoll(`${nm(a)} 擲骰子加分`,d=>{chg(a,d);fin(`🎲 ${nm(a)} 加分卡 +${d} 分`)});break;
+  case "hoho":askRoll(`${nm(a)} 擲骰子：雙數 +2、單數 +5`,d=>{const v=d%2?5:2;chg(a,v);fin(`🎅 ${nm(a)} 擲到 ${d}，+${v} 分`)});break;
+  case "x2":{const s=pf[a].score;chg(a,s);pf[a].score=s*2;fin(`✖️ ${nm(a)} 演奏分加倍：${s} → ${s*2}`)}break;
+  case "good":chg(a,3);fin(`💖 ${nm(a)} 好人卡 +3 分`);break;
+  case "win":askYN(`${nm(a)} 有在規定時間內吹完嗎？${pf[a].won?"（程式判定：有吹完）":"（程式判定：沒有吹完）"}`,y=>{if(y)chg(a,5);fin(y?`💪 ${nm(a)} 強者無敵 +5 分`:`💪 ${nm(a)} 沒有吹完，沒加分`)},"有，加 5 分","沒有");break;
+  case "rev":{const v=M.lastLost[a];if(v>0){chg(a,v);fin(`😈 ${nm(a)} 復仇卡，上回合失去的 ${v} 分拿回來`)}else{chg(a,3);fin(`😈 ${nm(a)} 上回合沒失分，復仇卡 +3 分`)}}break;
+  case "luck":askTeam(`幸運女神：從哪一隊轉移分數？`,oth,t=>askRoll(`擲骰子決定轉移幾分`,d=>mgHit(a,[t],xfer(d),()=>fin())));break;
+  case "fort":askRoll(`強運女神：擲骰子，從其他每一隊各轉移這麼多分`,d=>mgHit(a,oth,xfer(d),()=>fin()));break;
+  case "sky":mgHit(a,oth,(f,to)=>{chg(to,-3);lg(`😱 ${nm(to)} 扣 3 分`)},()=>fin());break;
+  case "doom":askRoll(`夭壽卡：擲骰子，其他每一隊各扣這麼多分`,d=>mgHit(a,oth,(f,to)=>{chg(to,-d);lg(`🌳 ${nm(to)} 扣 ${d} 分`)},()=>fin()));break;
+  case "star":mgHit(a,oth,(f,to)=>{const q=pf[to];if(!q.done)q.blocked=true;q.valid=false;lg(`⭐ ${nm(to)} ${q.blocked?"失去演奏機會":"手上卡片失效"}`)},()=>fin());break;
+  case "cond":{const cs=oth.filter(t=>!pf[t].done&&!pf[t].blocked);if(!cs.length){none("沒有尚未上場的他組演奏家可以更換。");break}
+   mgQ({k:"multi",title:"超級指揮家：選擇要更換演奏家的隊伍（可多選）",c:cs,cb:v=>{v.forEach(t=>pf[t].swap=true);fin(`🎼 ${nm(a)} 指定 ${v.map(nm).join("、")||"（無）"} 更換演奏家`)}});break}
+  case "steal":{const cs=oth.filter(t=>pf[t].drawn&&!pf[t].used&&pf[t].valid);if(!cs.length){none("沒有別人未使用的卡可以搶。");break}
+   askTeam(`搶奪卡：要搶哪一隊手上的卡？`,cs,t=>{const q=pf[t],cc=MGI[q.card];q.used=true;q.valid=false;lg(`🦹 ${nm(a)} 搶走 ${nm(t)} 的「${cc.n}」並立即使用`);mgPlay(a,q.card,done)});break}
+  case "copy":{const cs=oth.filter(t=>pf[t].drawn&&pf[t].card!=="copy");if(!cs.length){none("沒有可以複製的卡。");break}
+   askTeam(`複製卡：要複製哪一隊的卡？（已用或未用都可以）`,cs,t=>{const cc=MGI[pf[t].card];lg(`📄 ${nm(a)} 複製 ${nm(t)} 的「${cc.n}」並立即使用`);mgPlay(a,pf[t].card,done)});break}
+  case "up":{const cs=oth.filter(t=>!pf[t].done&&!pf[t].blocked);if(!cs.length){none("沒有尚未上場的演奏者。");break}
+   askTeam(`強制升級：指定一位演奏者須背譜`,cs,t=>mgHit(a,[t],(f,to)=>{pf[to].memo=true;lg(`🚀 ${nm(to)} 須背譜演出`)},()=>fin()));break}
+  case "para":{const cs=oth.filter(t=>pf[t].done);if(!cs.length){none("還沒有其他隊有演奏分。");break}
+   askTeam(`寄生卡：演奏分數要和哪一隊一樣？`,cs,t=>{scFix(a,pf[t].score);fin(`🧟 ${nm(a)} 的演奏分變成和 ${nm(t)} 一樣：${fN(pf[t].score)} 分`)});break}
+  case "half":{const cs=all.filter(t=>pf[t].done);askTeam(`腰斬卡：要砍哪一隊的演奏得分？`,cs,t=>mgHit(a,t===a?[]:[t],(f,to)=>{const s=pf[to].score,n=Math.round(s/2);scFix(to,n);lg(`🪓 ${nm(to)} 演奏得分 ${fN(s)} → ${fN(n)}`)},()=>{if(t===a){const s=pf[a].score,n=Math.round(s/2);scFix(a,n);lg(`🪓 ${nm(a)} 演奏得分 ${fN(s)} → ${fN(n)}`)}fin()}));break}
+  case "boat":{const cs=oth.filter(t=>pf[t].done);if(!cs.length){none("還沒有其他隊有演奏分。");break}
+   askTeam(`友誼的小船：要讓哪一隊的演奏得分無效？`,cs,t=>mgHit(a,[t],(f,to)=>{scFix(to,0);lg(`🚤 ${nm(to)} 本回合演奏得分歸零`)},()=>fin()));break}
+  case "bridge":{const cs=oth.filter(t=>pf[t].done);if(cs.length<2){none("需要至少兩個其他隊已有演奏分。");break}
+   askTeam(`友誼的橋樑：選第一隊`,cs,t1=>askTeam(`友誼的橋樑：選第二隊`,cs.filter(t=>t!==t1),t2=>{const s=(pf[t1].score+pf[t2].score)/2;scFix(t1,s);scFix(t2,s);fin(`🌉 ${nm(t1)} 與 ${nm(t2)} 的演奏分相加平分，各 ${fN(s)} 分`)}));break}
+  case "two":M.extra=a;lg(`🎁 ${nm(a)} 買一送一：再請一位同組成員上場`);askInfo(`請 ${nm(a)} 再派一位同組成員上場，再吹一次，演奏分會再加一次。`,()=>{done();mgStart(a)},"開始吹奏");break;
+  case "inv":askRoll(`${nm(a)} 無敵星星：擲骰子額外加分`,d=>{chg(a,d);pf[a].inv=true;fin(`🌟 ${nm(a)} 無敵星星 +${d} 分，本回合攻擊都無效`)});break;
+  case "time":mgQ({k:"snap",title:`時光倒流：回到哪個時間點？`,cb:k=>{mgRestore(k);pf[a].used=true;pf[a].valid=true;fin(`⏪ ${nm(a)} 時光倒流，回到「${RD().snaps[k].label}」`)}});break;
+  default:none(`${c.n}：${c.t}`)}}
+function mgFinal(){tBack();const M=TM,m=Math.max(...M.sc),win=M.sc.map((v,i)=>v===m?tnm(i):"").filter(Boolean);
+ if(FSND)[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.22,.2),i*140));
+ DB.innerHTML=`<div class="tm"><h2>🏆 ${win.join("、")} 獲勝！</h2><p class="sub">最終排名・${esc(M.song)}</p>${tbd()}<div class="opts"><button class="big" data-act="mgstart2">再玩一場</button><button data-act="dsetup">回到決鬥場</button></div></div>`}
+function dTabs(m){return`<div class="qtabs"><button data-act="tpin">🔑 老師密碼</button><button data-act="dmode1" class="${m==="d"?"on":""}">⚔️ 雙隊對決</button><button data-act="dmode2" class="${m==="m"?"on":""}">🃏 魔法卡牌賽</button></div>`}
+DB.addEventListener("click",e=>{const b=e.target.closest("[data-mg]");if(b&&TM&&TM.mg)mgAct(b.dataset.mg,b.dataset)});
+function dSetup(mode){if(mode==="m"){mgSetup();return}$("dtitle").textContent="⚔️ 決鬥場";TM=null;
+ DB.innerHTML=`${dTabs("d")}<div class="tm"><h2>⚔️ 決鬥場</h2><p class="sub">兩隊各自上場，吹同一首曲子、同樣的速度，最後比分數，分數高的隊伍獲勝。</p><div class="set" style="justify-content:center"><label>曲目<select id="ds">${songOpts()}</select></label><label>速度<select id="dsp">${$("speed").innerHTML}</select></label></div><div class="set" style="justify-content:center"><label>第一隊 <select id="dn0">${TN.map((n,k)=>`<option value="${k}"${k===0?" selected":""}>${TE[k]} ${n}</option>`).join("")}</select></label><span style="font-weight:900;color:#c026d3;font-size:24px">VS</span><label>第二隊 <select id="dn1">${TN.map((n,k)=>`<option value="${k}"${k===1?" selected":""}>${TE[k]} ${n}</option>`).join("")}</select></label></div><button class="big" data-act="dgo">開始決鬥</button></div>`;
+ $("dsp").value=$("speed").value}
+const dCl=v=>String(v||"").replace(/[<>&"'`]/g,"").trim().slice(0,8);
+function dGo(){const song=$("ds").value,a=+$("dn0").value,b=+$("dn1").value;if(a===b){if(!DB.querySelector(".warn"))DB.insertAdjacentHTML("beforeend",'<p class="warn">請選兩個不同的隊伍</p>');return}$("speed").value=$("dsp").value;
+ const ph=SONGS[song].split(/\s*[|｜]\s*/).filter(Boolean);
+ TM={duel:1,n:2,ids:[a,b],song,ph,l:ph.length,s:1,R:1,t:0,sc:[0,0],tot:2};tTurn()}
+function dGo2(){TM={...TM,t:0,sc:[0,0]};tTurn()}
+function dTurn(){tBack();const i=TM.t%2;
+ DB.innerHTML=`<div class="tm"><h2>⚔️ 輪到 ${tnm(i)}</h2><p class="sub"><b class="sn">${esc(TM.song)}</b>${i?`・要超過對手的 <b>${TM.sc[0]}</b> 分才會贏！`:"・從頭吹到尾，請派一位同學上場！"}</p><button class="big" data-act="tstart">開始吹奏</button></div>`}
+function dFinal(){tBack();const a=TM.sc[0],b=TM.sc[1],w=a>b?0:b>a?1:-1;if(FSND)[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.22,.2),i*140));
+ DB.innerHTML=`<div class="tm"><h2>${w<0?"🤝 平手！":"🏆 "+tnm(w)+" 獲勝！"}</h2><div class="duel">${[0,1].map(i=>`<div class="dc${w===i?" win":""}" style="--c:${TC[tid(i)]}"><div class="dn">${tnm(i)}</div><div class="ds">${TM.sc[i]}</div><small>分</small>${w===i?'<div class="dcr">👑</div>':""}</div>`).join('<div class="dvs">VS</div>')}</div><p class="sub">${esc(TM.song)}・分差 ${Math.abs(a-b)} 分</p><div class="opts"><button class="big" data-act="dgo2">${w<0?"加賽一場":"再決鬥一次"}</button><button data-act="dsetup">換曲目／隊名</button></div></div>`}
+const tbd=()=>{const m=Math.max(1,...TM.sc),ord=TM.sc.map((v,i)=>i).sort((a,b)=>TM.sc[b]-TM.sc[a]||a-b);let rk=0,pv=null;return`<div class="bd">${ord.map((i,p)=>{if(TM.sc[i]!==pv){rk=p+1;pv=TM.sc[i]}const md=TM.sc[i]>0&&rk<=3?["🥇","🥈","🥉"][rk-1]:rk+".";return`<div><i style="width:${TM.sc[i]/m*100}%;background:${TC[tid(i)]}"></i><span>${md} ${tnm(i)}</span><b>${TM.sc[i]}</b></div>`}).join("")}</div>`};
 function tBack(){$("play").hidden=true;G=null;$("again").hidden=$("tomenu").hidden=false;const b=$("tnx");b&&(b.hidden=true);DR.hidden=false}
-function tTurn(){tBack();const i=TM.t%TM.n,r=Math.floor(TM.t/TM.n),k=r%TM.s;
+function tTurn(){if(TM.mg){mgRender();return}if(TM.duel){dTurn();return}tBack();const i=TM.t%TM.n,r=Math.floor(TM.t/TM.n),k=r%TM.s;
  DB.innerHTML=`<div class="tm"><h2>輪到 ${tnm(i)}</h2><p class="sub">第 ${r+1} 輪・<b class="sn">${esc(TM.song)}</b>・第 ${k*TM.l+1}–${Math.min(TM.ph.length,k*TM.l+TM.l)} 句。請派一位同學上場！</p>${tbd()}<button class="big" data-act="tstart">開始吹奏</button></div>`}
-async function tStart(){const i=TM.t%TM.n,k=Math.floor(TM.t/TM.n)%TM.s;SONGS._seg=TM.ph.slice(k*TM.l,k*TM.l+TM.l).join(" | ");DR.hidden=true;try{await start("_seg")}catch(e){}
+async function tStart(){M68.has(TM.song)?M68.add("_seg"):M68.delete("_seg");const i=TM.t%TM.n,k=Math.floor(TM.t/TM.n)%TM.s;SONGS._seg=TM.ph.slice(k*TM.l,k*TM.l+TM.l).join(" | ");DR.hidden=true;try{await start("_seg")}catch(e){}
  if(!G||G.name!=="_seg"){DR.hidden=false;DB.insertAdjacentHTML("beforeend",`<p class="warn">麥克風沒有開啟：請回選單按「開啟麥克風」後再來。</p>`);return}$("title").textContent=tnm(i)+"・"+TM.song}
-function tDone(){const i=TM.t%TM.n,sc=SC100();TM.sc[i]+=sc;delete STARS._seg;sv("rgStars",STARS);TM.t++;const last=TM.t>=TM.tot;
- $("otxt").textContent=tnm(i)+" 得 "+sc+" 分";$("ostat").innerHTML=`<div class="best">📊 目前排名</div>`+tbd();$("again").hidden=$("tomenu").hidden=true;
- let b=$("tnx");if(!b){b=document.createElement("button");b.id="tnx";b.className="big";$("over").appendChild(b)}b.hidden=false;b.textContent=last?"看最終排名":"下一隊："+tnm(TM.t%TM.n);b.onclick=last?tFinal:tTurn}
-function tFinal(){tBack();const m=Math.max(...TM.sc);DB.innerHTML=`<div class="tm"><h2>🏆 ${TM.sc.map((v,i)=>v===m?tnm(i):"").filter(Boolean).join("、")}</h2><p class="sub">最終排名</p>${tbd()}<div class="opts"><button class="big" data-act="tsetup">再玩一場</button></div></div>`}
+function tDone(w){if(TM.mg){mgDone(w);return}const i=TM.t%TM.n,sc=SC100();TM.sc[i]+=sc;delete STARS._seg;sv("rgStars",STARS);TM.t++;const last=TM.t>=TM.tot;
+ $("otxt").textContent=tnm(i)+" 得 "+sc+" 分";$("ostat").innerHTML=TM.duel?(last?"":`<div class="best">${tnm(i)} 完成了，換對手挑戰！</div>`):`<div class="best">📊 目前排名</div>`+tbd();$("again").hidden=$("tomenu").hidden=true;
+ let b=$("tnx");if(!b){b=document.createElement("button");b.id="tnx";b.className="big";$("over").appendChild(b)}b.hidden=false;b.textContent=last?(TM.duel?"看決鬥結果":"看最終排名"):"下一隊："+tnm(TM.t%TM.n);b.onclick=last?tFinal:tTurn}
+function tFinal(){if(TM.mg){mgFinal();return}if(TM.duel){dFinal();return}tBack();const m=Math.max(...TM.sc);DB.innerHTML=`<div class="tm"><h2>🏆 ${TM.sc.map((v,i)=>v===m?tnm(i):"").filter(Boolean).join("、")}</h2><p class="sub">最終排名</p>${tbd()}<div class="opts"><button class="big" data-act="tsetup">再玩一場</button></div></div>`}
 const _fin=finish;finish=function(w){const f=G&&!G.over;_fin(w);certMark(f,w);
  if(f&&GDC()){const n=G.np*3+G.ng*2+(w?10:0);let t=0;try{t=+localStorage.getItem("rgCoins")||0}catch(e){}t+=n;try{localStorage.setItem("rgCoins",t)}catch(e){}$("otxt").textContent=w?"🎉 賺到金幣了！":"💨 金幣被搶走了…";let d=$("ocoin");if(!d){d=document.createElement("div");d.id="ocoin";$("over").appendChild(d)}d.textContent="💰 本次賺到 "+n+" 金幣・累計 "+t;d.hidden=false}else{const d=$("ocoin");d&&(d.hidden=true)}
- if(f&&SPC())$("otxt").textContent=w?"🎉 星際守護成功！":"💥 太空站失守…";if(f&&TM&&G.name==="_seg")tDone()};
+ if(f&&SPC())$("otxt").textContent=w?"🎉 星際守護成功！":"💥 太空站失守…";if(f&&TM&&G.name==="_seg")tDone(w)};
 const _tm=toMenu;toMenu=function(){TM=null;const b=$("tnx");b&&(b.hidden=true);$("again").hidden=$("tomenu").hidden=false;_tm();applyTheme()};
 
 // ---- 個人排行榜 ----
@@ -2256,7 +2413,7 @@ function lbShow(sc,st){let d=$("lb");if(!d){d=document.createElement("div");d.id
 const _fin2=finish;finish=function(w){const f=G&&!G.over,nm=G&&G.name;_fin2(w);const d=$("lb");
  if(f&&nm&&nm[0]!=="_"&&!TM){const N=G.notes.length,acc=(G.np+G.ng*.85)/N;lbShow(SC100(),!w?0:acc>=.9?3:acc>=.7?2:acc>=.4?1:0)}else if(d)d.hidden=true};
 DB.onclick=e=>{const b=e.target.closest("[data-lv],[data-act],[data-solo]");if(!b)return;if(b.dataset.solo!=null)return sStart(b.dataset.solo);if(b.dataset.lv!=null)return fStart(+b.dataset.lv);
- const A={hint(){D.hint=!D.hint;FH=!D.hint;fDraw()},fok(){D.wait||fOK(1)},fskip(){D.wait||fOK(0)},snd(){FSND=!FSND;try{localStorage.setItem("rgSnd",FSND?"1":"0")}catch(e){}D.kind==="s"?sDraw():fDraw()},shint(){D.hint=!D.hint;sDraw()},pick(){cancelAnimationFrame(RAF);lvPick(PK)},tgo:tGo,tstart:tStart,tsetup:tSetup};(A[b.dataset.act]||(()=>{}))()};
+ const A={hint(){D.hint=!D.hint;FH=!D.hint;fDraw()},fok(){D.wait||fOK(1)},fskip(){D.wait||fOK(0)},snd(){FSND=!FSND;try{localStorage.setItem("rgSnd",FSND?"1":"0")}catch(e){}D.kind==="s"?sDraw():fDraw()},shint(){D.hint=!D.hint;sDraw()},pick(){cancelAnimationFrame(RAF);lvPick(PK)},tgo:tGo,tstart:tStart,tsetup:tSetup,dgo:dGo,dgo2:dGo2,dsetup:()=>dSetup(),tpin:tPin,dmode1:()=>dSetup("d"),dmode2:()=>dSetup("m"),mgstart:mgGo,mgstart2:mgGo2};(A[b.dataset.act]||(()=>{}))()};
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!DR.hidden)dexit()});
 $("dback").onclick=dexit;
 $("modes").onclick=e=>{const c=e.target.closest("[data-m]");c&&openMode(c.dataset.m)};
@@ -2537,12 +2694,17 @@ function build(){M.classList.add("hub");
  <nav id="hubl" aria-label="任務與獎勵">${ib("cls","🏫","班級")}${ib("q","📜","任務")}${ib("shop","🛒","商店")}${ib("cert","🏅","證書設定")}</nav>
  <nav id="hubr" aria-label="工具">${ib("set","⚙️","設定")}${ib("scan","📷","樂譜")}${ib("fs","⛶","全螢幕")}</nav>
  <section id="hubc"><div id="hlogo"></div><div id="hqt"></div><button class="gobtn" data-a="songs">⚔ 開始闖關</button></section>
- <nav id="hubb" aria-label="主選單">${ib("songs","🎵","曲目闖關")}${ib("nv","🌱","新手村")}${ib("t","🏫","小隊輪流")}</nav>`;
+ <nav id="hubb" aria-label="主選單">${ib("nv","🌱","新手村")}${ib("songs","🎵","旋律練功房")}</nav>`;
  $("hlogo").replaceWith(h1);if(wal)h1.after(wal);
  if(!RMq)[[8,62],[22,40],[70,58],[86,44],[50,30]].forEach(([x,d],i)=>{const n=document.createElement("span");n.className="hnote";n.textContent=["♪","♫","♩","♬","♪"][i];n.style.left=x+"%";n.style.top=d+30+"%";n.style.animationDelay=(i*1.3)+"s";M.appendChild(n)});
  const mk=(id,t,nodes)=>{const s=document.createElement("div");s.className="sheet";s.id="sh-"+id;s.hidden=true;s.innerHTML=`<div class="sp" role="dialog" aria-label="${t}"><div class="sh"><span>${t}</span><button class="sx" aria-label="關閉">✕</button></div><div class="sc"></div></div>`;
   const c=s.querySelector(".sc");(nodes||[]).forEach(n=>n&&c.appendChild(n));s.querySelector(".sx").onclick=()=>closeSheet(s);s.onclick=e=>{if(e.target===s)closeSheet(s)};M.appendChild(s);return c};
- const qs=document.createElement("div");qs.className="set";qs.style.cssText="margin:0 0 8px;justify-content:flex-start";qs.append(R.speed,R.metro,fgSel(),accSel());mk("songs","🎵 曲目闖關",[qs,secs[1],R.grid,ver]);if(secs[1])secs[1].hidden=true;
+ const qs=document.createElement("div");qs.className="set";qs.style.cssText="margin:0 0 8px;justify-content:flex-start";qs.append(R.speed,R.metro,fgSel(),accSel());const sgt=document.createElement("div");sgt.className="qtabs sgtabs";sgt.innerHTML='<button data-f="all" class="on">全部</button><button data-f="song">🎵 歌曲練習</button><button data-f="seg">✂️ 分段挑戰</button>';
+ const SEGRE=/・第[一二三四五六七八九十]+行$/,sgApply=f=>{const g=R.grid;if(!g)return;sgt.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.f===f));sgt.dataset.f=f;g.querySelectorAll(".card[data-k]").forEach(c=>{const seg=SEGRE.test(c.dataset.k);c.style.display=(f==="all"||(f==="seg")===seg)?"":"none"});[...g.querySelectorAll(".fsec")].reverse().forEach(x=>{x.style.display=f==="all"||x.querySelector('.card[data-k]:not([style*="none"])')?"":"none"})};
+ sgt.onclick=e=>{const b=e.target.closest("button[data-f]");b&&sgApply(b.dataset.f)};sgt.dataset.f="all";
+ try{new MutationObserver(()=>{sgApply(sgt.dataset.f)}).observe(R.grid,{childList:true,subtree:true})}catch(e){}
+ const tmb=document.createElement("div");tmb.className="tmrow";tmb.innerHTML='<button class="nvc tmb" data-a="t"><i>👥</i><b>小隊輪流</b><span>全班一起玩，各隊輪流上場累積分數</span></button><button class="nvc tmb" data-a="d"><i>⚔️</i><b>🔒 決鬥場</b><span>尚未開放</span></button>';
+ mk("songs","🎵 旋律練功房",[qs,tmb,sgt,secs[1],R.grid,ver]);if(secs[1])secs[1].hidden=true;
  const nv=document.createElement("div");nv.className="nvg";nv.innerHTML=`<p class="sub" style="text-align:center;font-size:18px;grid-column:1/-1;margin:0">剛開始學直笛，先從這裡練起！</p><button class="nvc" data-a="f"><i>🖐</i><b>指法特訓</b><span>看音名吹出來，練熟每個音的指法</span></button><button class="nvc" data-a="b"><i>🎼</i><b>基本練習</b><span>每個音吹一個長音，從 Do 慢慢爬到高音 Sol</span></button>`;mk("nv","🌱 新手村",[nv]);
  mk("set","⚙️ 設定",[sub,set,tb]);
  mk("scan","📷 樂譜與傳送",[R.scan,R.file,R.scanmsg,R.share,xf]);
@@ -2558,7 +2720,7 @@ const RMq=matchMedia("(prefers-reduced-motion: reduce)").matches;
 function openSheet(id){[...M.querySelectorAll(".sheet")].forEach(s=>s.hidden=true);const s=$("sh-"+id);if(!s)return;if(id==="cls")renderCls();if(id==="q")renderQ(TAB);if(id==="sign")renderSign();if(id==="shop")renderShop();if(id==="pf")renderPf();s.hidden=false;const x=s.querySelector(".sx");x&&x.focus({preventScroll:true})}
 function closeSheet(s){s.hidden=true;hubRefresh()}
 function act(a){if(a==="mic"){$("micbtn").click();setTimeout(hubRefresh,800);return}
- if(a==="f"||a==="t"||a==="b"){[...M.querySelectorAll(".sheet")].forEach(s=>s.hidden=true);openMode(a);return}
+ if(a==="f"||a==="t"||a==="b"||a==="d"){[...M.querySelectorAll(".sheet")].forEach(s=>s.hidden=true);openMode(a);return}
  if(a==="cert"){$("tbtn").click();return}if(a==="fs"){$("fs").click();return}
  if(["songs","nv","set","scan","q","sign","shop","pf","cls"].includes(a))openSheet(a)}
 function go(where){if(where==="songs")openSheet("songs");else act(where)}
@@ -2685,6 +2847,17 @@ function renderRank(){const c=mkSheet("rank","🏆 班級排行榜").querySelect
  <div class="rklist">${rows.map((x,i)=>{const r=rankOf(x.rp);return `<div class="rkr${x.cur?" me":""}"><div class="rkn">${i<3?["🥇","🥈","🥉"][i]:i+1}</div><div class="rkav">${x.cur?avHTML():AV(x.av)}</div><div style="flex:1;min-width:0"><div class="qt">${esc(x.k.name)}${x.cur?"　<small>（目前班級）</small>":""}</div><div>${rkChip(r)}</div></div><div class="rkst"><b>${x.rp}</b><small>積分</small></div><div class="rkst"><b>${x.stars}</b><small>⭐ 星星</small></div><div class="rkst"><b>${x.cas}</b><small>🏰 城堡</small></div><div class="rkst"><b>${x.lv}</b><small>等級</small></div></div>`}).join("")}</div>
  ${CLS.list.length<2?`<p class="sub" style="text-align:center">目前只有一個班級。到「🏫 班級」新增其他班，就能互相比賽。</p>`:""}
  <details class="rkhelp"><summary>📘 段位怎麼算？</summary><p>每拿到 1 顆星 <b>+10 分</b>、攻下 1 座城堡 <b>+40 分</b>、每次守護成功 <b>+3 分</b>。</p><div class="rkt">${TIERS.map((t,i)=>`<span class="rk" style="--rc:${t[2]}">${t[1]} ${t[0]}　${t[3]} 分起</span>`).join("")}</div><p>每個段位分成 III、II、I 三階，I 最高。</p></details>`}
+// ---- 榮耀殿堂：排行榜＋成就紀錄 ----
+let HT="r";
+function renderAch(){const c=mkSheet("rank","🏆 榮耀殿堂").querySelector(".sc"),L=lvInfo(),me=myRP(),R=rankOf(me.rp),W=mainWalk(),sg=Object.keys(STARS||{}).filter(k=>SONGS[k]&&+STARS[k]>0).sort((a,b)=>STARS[b]-STARS[a]);
+ c.innerHTML=`<div class="rkme" style="--rc:${R.col}"><div class="rkbig">${R.ic}</div><div style="flex:1"><div class="qt" style="font-size:24px">${esc(curC().name)}　${rkChip(R)}</div><div class="qw">Lv ${L.l}《${title(L.l)}》　段位積分 <b>${me.rp}</b>　⭐ ${starSum()}　🏰 ${W.filter(x=>x.done).length} / ${W.length}</div></div></div>
+ <h3 class="sec">📊 累計紀錄</h3><div class="pfst">${[["完成曲子",ST.plays||0],["守護成功",ST.wins||0],["累積完美",ST.perfect||0],["最高連擊",ST.maxc||0],["長音滿分",ST.lok||0],["FEVER 次數",ST.fever||0],["星星總數",starSum()],["指法特訓",ST.fd||0],["小隊輪流",ST.team||0]].map(([a,b])=>`<div><b>${b}</b>${a}</div>`).join("")}</div>
+ <h3 class="sec">🎖 支線成就</h3>${SIDE.map(s=>{const i=Math.min(SQ[s.id]||0,s.st.length);return`<div class="qr${i>=s.st.length?" got":""}"><div class="qi">${s.ic}</div><div><div class="qt">${s.n}</div><div class="qd">${s.d}</div><div class="qw">${s.st.map((_,j)=>j<i?"🏅":"⚪").join(" ")}　已完成 ${i} / ${s.st.length} 階</div></div></div>`}).join("")}
+ <h3 class="sec">⭐ 歌曲星星</h3>${sg.length?`<div class="pfst">${sg.map(k=>`<div><b>${"⭐".repeat(Math.min(3,+STARS[k]))}</b>${esc(k)}</div>`).join("")}</div>`:`<p class="sub">還沒有拿到星星。去闖關吧！</p>`}`}
+function renderHall(tab){HT=tab||HT;const s=mkSheet("rank","🏆 榮耀殿堂");s.querySelector(".sh span").textContent="🏆 榮耀殿堂";const c=s.querySelector(".sc");
+ if(HT==="a")renderAch();else renderRank();
+ c.insertAdjacentHTML("afterbegin",`<div class="qtabs hltabs"><button data-h="r" class="${HT==="r"?"on":""}">🏆 排行榜</button><button data-h="a" class="${HT==="a"?"on":""}">🎖 成就紀錄</button></div>`);
+ c.querySelector(".hltabs").onclick=e=>{const b=e.target.closest("button[data-h]");b&&renderHall(b.dataset.h)}}
 // ---- 冒險地圖 ----
 let MSEL=null,HERO=null;
 // ---- 十種城堡造型（原創向量圖） ----
@@ -2725,7 +2898,7 @@ function castleSVG(x,y,st,i){const k=i%CST.length;return `<g class="mc ${st}" da
 const SPOTS=[[480,520],[1220,360],[1980,620],[2760,400],[3520,640],[4280,420],[820,1200],[1600,1080],[2380,1300],[3160,1120],[3940,1320],[460,1860],[1260,1960],[2060,1880],[2860,2000],[3680,1920]];
 function spotOf(i){if(i<SPOTS.length)return SPOTS[i];const j=i-SPOTS.length,r=Math.floor(j/6),c=j%6,h=(j*7919)%97;return[460+c*760+(r%2)*300+(h%5-2)*50,2580+r*620+(h%7-3)*40]}
 const HKEY="rgMapPos";
-function renderMap(){const sh=mkSheet("map","🗺️ 冒險地圖");sh.classList.add("mpfull");const c=sh.querySelector(".sc"),W=mainWalk(),n=W.length;
+function renderMap(){const sh=mkSheet("map","🗺️ 音樂冒險地圖");sh.classList.add("mpfull");const c=sh.querySelector(".sc"),W=mainWalk(),n=W.length;
  if(!n){c.innerHTML=`<div class="mpempty"><p style="font-size:22px;font-weight:900">地圖上的城堡就是「主線任務」的曲子。老師還沒設定，請按下方按鈕挑選曲子。</p><p><button class="qa claim" data-mset="1" style="font-size:20px">⚙ 設定城堡曲目</button> <button class="qa" data-mback="1" style="font-size:20px">⬅ 回大廳</button></p></div>`;c.onclick=mapClick;return}
  const P=W.map((r,i)=>spotOf(i)),VW=Math.max(3000,Math.max(...P.map(p=>p[0]))+520),VH=Math.max(1700,Math.max(...P.map(p=>p[1]))+500),sx=VW/1700;
  const E=new Set(),trail=[];P.forEach((a,i)=>{P.map((b,j)=>[j,Math.hypot(a[0]-b[0],a[1]-b[1])]).filter(x=>x[0]!==i).sort((x,y)=>x[1]-y[1]).slice(0,2).forEach(([j])=>{const k=i<j?i+"-"+j:j+"-"+i;if(E.has(k))return;E.add(k);const[x1,y1]=P[i],[x2,y2]=P[j],mx=(x1+x2)/2+(y2-y1)*.18,my=(y1+y2)/2-(x2-x1)*.18+40;trail.push(`<path d="M${x1} ${y1+110}Q${mx} ${my+110} ${x2} ${y2+110}" fill="none" stroke="#a07a45" stroke-width="10" stroke-dasharray="22 16" stroke-linecap="round" opacity=".8"/>`)})});
@@ -2821,14 +2994,15 @@ const _hr=hubRefresh;hubRefresh=function(){_hr();if(!$("pfnm"))return;const av=$
  const R=rankOf(myRP().rp);let rk=$("pfrk");if(!rk){rk=document.createElement("span");rk.id="pfrk";$("pfti").after(rk)}rk.innerHTML=rkChip(R);
  const hv=$("hav");hv&&(hv.innerHTML=`<i>${avHTML()}</i>${esc(curC().name)}・${R.ic} ${R.name}`)};
 const _rp0=renderPf;renderPf=function(){_rp0();const a=$("sh-pf").querySelector(".av");if(a){a.style.cssText+=";"+frameSt();a.innerHTML=avHTML()+`<b>Lv ${lvInfo().l}</b>`}};
-const _os=openSheet;openSheet=function(id){if(id==="map"){mapFlash(()=>{const sh=mkSheet("map","🗺️ 冒險地圖");sh.classList.add("mpfull");document.body.appendChild(sh);[...M.querySelectorAll(".sheet")].forEach(x=>x.hidden=true);M.style.visibility="hidden";sh.hidden=false;renderMap()});return}if(id==="rank"){mkSheet("rank","🏆 班級排行榜");renderRank()}_os(id)};
+const MAPOPEN=false; // 要開放音樂冒險地圖時，把這裡改成 true
+const _os=openSheet;openSheet=function(id){if(id==="map"&&!MAPOPEN){toast("🔒 音樂冒險地圖<br>敬請期待，老師開放後就能出發！");return}if(id==="map"){mapFlash(()=>{const sh=mkSheet("map","🗺️ 音樂冒險地圖");sh.classList.add("mpfull");document.body.appendChild(sh);[...M.querySelectorAll(".sheet")].forEach(x=>x.hidden=true);M.style.visibility="hidden";sh.hidden=false;renderMap()});return}if(id==="rank"){renderHall()}_os(id)};
 const _act=act;act=function(a){if(a==="map"||a==="rank")return openSheet(a);return _act(a)};
-window.__afterBuild=()=>{$("hubl").querySelector('[data-a="cls"]').insertAdjacentHTML("afterend",ib("rank","🏆","排行榜"));$("hubb").insertAdjacentHTML("afterbegin",ib("map","🗺️","冒險地圖"));
- const gb=M.querySelector(".gobtn");gb&&(gb.dataset.a="map",gb.textContent="🗺️ 出發冒險");const sh=$("sh-shop");sh&&(sh.querySelector(".sh span").textContent="🛒 商店");
+window.__afterBuild=()=>{$("hubb").insertAdjacentHTML("beforeend",ib("map",MAPOPEN?"🗺️":"🔒","音樂冒險地圖")+ib("rank","🏆","榮耀殿堂"));if(!MAPOPEN){const mb=$("hubb").querySelector('[data-a="map"]');mb&&(mb.style.filter="grayscale(.85) brightness(.85)")}
+ const gb=M.querySelector(".gobtn");gb&&(MAPOPEN?(gb.dataset.a="map",gb.textContent="🗺️ 出發冒險"):(gb.dataset.a="songs",gb.textContent="🎵 開始練習"));const sh=$("sh-shop");sh&&(sh.querySelector(".sh span").textContent="🛒 商店");
  const _f3=finish;finish=function(w){const f=G&&!G.over&&G.name&&G.name[0]!=="_",r0=myRP(),c0=mainWalk().filter(x=>x.done).length;_f3(w);if(!f)return;
   const r1=myRP(),c1=mainWalk().filter(x=>x.done).length,k0=rankOf(r0.rp),k1=rankOf(r1.rp);let d=$("oexp");if(!d)return;
   d.insertAdjacentHTML("beforeend",`<span>🏅 段位積分 ${r1.rp}${r1.rp>r0.rp?`（+${r1.rp-r0.rp}）`:""}</span>`+(c1>c0?`<span class="qn2">🏰 攻下城堡《${esc(G.name)}》！</span>`:"")+(k1.name!==k0.name&&r1.rp>r0.rp?`<span class="qn2">⬆ 升段：${k1.ic} ${k1.name}</span>`:""));
-  if(c1>c0)setTimeout(()=>toast(`🏰 攻下城堡《${esc(G?G.name:"")}》！<br>回地圖繼續探索其他城堡`,true),400);
+  if(c1>c0)setTimeout(()=>toast(`🏰 攻下城堡《${esc(G?G.name:"")}》！<br>繼續挑戰其他曲目`,true),400);
   if(k1.name!==k0.name&&r1.rp>r0.rp)setTimeout(()=>toast(`${k1.ic} 升段了！${k1.name}`,true),1300)}};
 
 window.hubRefresh=hubRefresh;

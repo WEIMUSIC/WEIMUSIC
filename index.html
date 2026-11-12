@@ -1692,9 +1692,16 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 /* 老師編輯模式：沒開啟時，學生看不到拖曳、編輯、搬移、資料夾管理 */
 #sh-songs:not(.tedit) .dg,#sh-songs:not(.tedit) .card .ac,#sh-songs:not(.tedit) .gh .gt:not(.tog),#sh-songs:not(.tedit) .bkw:has(.bnew){display:none!important}
 #tedbtn.on{background:#2f5296;color:#ffe9a8;border-color:var(--gold)}
+/* 開啟時先顯示載入畫面，等主畫面和底圖都準備好才顯示，避免先看到舊畫面 */
+#splash{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:linear-gradient(#6cc8ff,#dff6ff 60%,#f3dc9a);color:#1b2a4a;text-align:center;transition:opacity .35s}
+#splash div{display:flex;flex-direction:column;gap:8px;align-items:center}#splash i{font-style:normal;font-size:64px;animation:bdp 1s ease-in-out infinite}#splash b{font-size:34px;font-weight:900;letter-spacing:3px;text-shadow:0 2px 0 #fff}#splash span{font-size:18px;font-weight:700;opacity:.7}
+#splash.gone{opacity:0;pointer-events:none}
+#menu:not(.ready){visibility:hidden}
 </style>
 </head>
 <body>
+<script>setTimeout(function(){var m=document.getElementById("menu"),s=document.getElementById("splash");if(m&&!m.classList.contains("ready")){m.classList.add("ready");s&&s.remove()}},8000)</script>
+<div id="splash"><div><i>🎵</i><b>直笛守護者</b><span>載入中…</span></div></div>
 <main id="menu">
   <h1>🎺 直笛守護者</h1>
   <p class="sub">先按「開啟麥克風」。用真的直笛吹出正確的音高才算成功，趕走小怪獸守住城堡。建議在安靜的地方、一個人吹，並把喇叭音量調小或戴耳機。</p>
@@ -3090,7 +3097,7 @@ const FGN={b:"面板＋怪獸",p:"左邊面板",m:"怪獸身上",o:"關閉"};
 function fgSet(v){if(v===true)v="b";else if(v===false)v="p";if(!FGN[v])v="b";$("fpos").value=v;try{localStorage.setItem("rgFpos",v)}catch(e){}const s=$("fgon");s&&(s.value=v);const b=$("fgbtn");b&&(b.textContent="🖐 指法："+FGN[v])}
 function accSel(){const s=document.createElement("select");s.id="accon";s.setAttribute("aria-label","伴奏音");s.innerHTML='<option value="1">伴奏音：開</option><option value="0">伴奏音：關</option>';s.value=ACCON?"1":"0";s.onchange=()=>{ACCON=s.value==="1";try{localStorage.setItem("rgAcc",ACCON?"1":"0")}catch(e){}};return s}
 function fgSel(){const fo=document.createElement("select");fo.id="fgon";fo.setAttribute("aria-label","指法位置");fo.innerHTML=Object.keys(FGN).map(k=>`<option value="${k}">指法：${FGN[k]}</option>`).join("");fo.onchange=()=>fgSet(fo.value);return fo}
-build();window.__afterBuild&&__afterBuild();fgSet((()=>{try{return localStorage.getItem("rgFpos")||"b"}catch(e){return "b"}})());hubRefresh();try{if(CLS.list.length>1&&!sessionStorage.getItem("rgPicked"))openSheet("cls")}catch(e){}setInterval(()=>{if(!M.hidden){const m=$("rmic");m&&(m.textContent=micOn?"🎤 麥克風已開啟":"🎤 開啟麥克風",m.classList.toggle("on",!!micOn));roll()}},1500);
+build();window.__afterBuild&&__afterBuild();(()=>{const M=$("menu"),sp=$("splash");let done=0;const go=()=>{if(done)return;done=1;M.classList.add("ready");if(sp){sp.classList.add("gone");setTimeout(()=>sp.remove(),500)}};const im=document.querySelector("#hubbg img:not(.bk)");if(im&&!im.complete){im.addEventListener("load",go);im.addEventListener("error",go)}else if(im&&im.decode){im.decode().then(go,go)}else go();setTimeout(go,4000)})();fgSet((()=>{try{return localStorage.getItem("rgFpos")||"b"}catch(e){return "b"}})());hubRefresh();try{if(CLS.list.length>1&&!sessionStorage.getItem("rgPicked"))openSheet("cls")}catch(e){}setInterval(()=>{if(!M.hidden){const m=$("rmic");m&&(m.textContent=micOn?"🎤 麥克風已開啟":"🎤 開啟麥克風",m.classList.toggle("on",!!micOn));roll()}},1500);
 })();
 
 </script>

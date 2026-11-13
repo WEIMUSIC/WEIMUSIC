@@ -2053,7 +2053,7 @@ function fgDraw(g,c){g.fillStyle="#ecd3a3";g.strokeStyle="#8a6532";g.lineWidth=2
   if(h.v==="h"){g.beginPath();g.arc(h.x,h.y,h.r,Math.PI/2,Math.PI*1.5);g.closePath();g.fillStyle=h.col;g.fill()}})}
 function fsvg(c){let s=`<svg viewBox="-26 0 150 214" width="130" aria-hidden="true"><rect x="38" y="6" width="26" height="186" rx="12" fill="#ecd3a3" stroke="#8a6532" stroke-width="2"/>`;
  fgShapes(c).forEach(h=>{s+=`<circle cx="${h.x}" cy="${h.y}" r="${h.r}" fill="${(h.v==="0"||h.v==="h")?"#fff":h.col}" stroke="${h.col}" stroke-width="${h.r>6?3:2}"/>`;if(h.v==="h")s+=`<path d="M${h.x} ${h.y-9}A9 9 0 0 0 ${h.x} ${h.y+9}Z" fill="${h.col}"/>`;
-  if(!h.sm){const th=h.i===0,cl=h.v==="1"||h.v==="h";s+=`<text x="${th?22:h.i<4?24:79}" y="${th?15:h.y+6}" text-anchor="middle" font-size="17" font-weight="900" fill="${h.col}" opacity="${cl?1:.5}">${h.i}</text>`}});
+  if(!h.sm){const th=h.i===0,cl=h.v==="1"||h.v==="h";s+=`<text x="${th?22:h.i<4?24:79}" y="${th?15:h.y+6}" text-anchor="middle" font-size="17" font-weight="900" fill="${h.col}" opacity="${cl?1:.92}" stroke="#fff" stroke-width="3" paint-order="stroke">${h.i}</text>`}});
  const br=(y0,y1,col,a,b,lx,tx)=>{const m=(y0+y1)/2;return`<path d="M${lx} ${y0}V${y1}" stroke="${col}" stroke-width="4" stroke-linecap="round" fill="none"/><text x="${tx}" y="${m-2}" text-anchor="middle" font-size="17" font-weight="900" fill="${col}"><tspan x="${tx}">${a}</tspan><tspan x="${tx}" dy="19">${b}</tspan></text>`};
  s+=br(40,96,"#16a34a","左","手",8,-10)+br(108,188,"#dc2626","右","手",98,112);
  if(c[8]==="1")s+=`<text x="64" y="208" font-size="12" font-weight="900" fill="#7a5a30">8</text>`;return s+"</svg>"}

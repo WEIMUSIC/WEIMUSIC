@@ -1740,7 +1740,8 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 #sh-nv .sh .sx{left:calc(50% + 104px)!important;right:auto!important;top:-12px!important}
 #sh-nv .sh{top:40px!important}#sh-nv .nvg .sub{top:104px!important}
 @keyframes bkGlow{0%,100%{filter:drop-shadow(0 2px 3px rgba(0,0,0,.5)) drop-shadow(0 0 4px rgba(255,226,120,.55))}50%{filter:drop-shadow(0 2px 3px rgba(0,0,0,.5)) drop-shadow(0 0 13px rgba(255,236,150,1)) drop-shadow(0 0 20px rgba(120,200,255,.7))}}
-.sx,#back,#dback,#rback,.mpback,[data-mback]{animation:bkGlow 2.2s ease-in-out infinite}
+.sx,#back,#dback,#rback,.mpback,[data-mback]{animation:bkGlow 2.2s ease-in-out infinite,bkBob 1.8s ease-in-out infinite}
+@keyframes bkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @media (prefers-reduced-motion:reduce){.sx,#back,#dback,#rback,.mpback,[data-mback]{animation:none}}
 </style>
 </head>

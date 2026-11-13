@@ -1760,6 +1760,7 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 #drill #dmmsg{display:block;color:#c0392b;font-weight:700}
 #rdy .rc{gap:9px}
 #rdy #rgo{font-size:clamp(22px,3.2vw,32px)!important;padding:9px 38px!important}
+#drill .dmic{max-width:min(720px,94vw)}#drill .dintro{font-size:clamp(20px,2.8vw,28px)!important;line-height:1.5;font-weight:700}
 </style>
 </head>
 <body>
@@ -2289,7 +2290,7 @@ function tGate(){if(TOK)return true;const o=TPG();if(!o){const n=prompt("這是�
  const c=prompt("🔒 請輸入老師密碼");if(c===null)return false;if(c!==o){alert("密碼不對");return false}TOK=true;return true}
 function openMode(m){if(m==="b"){startBasic();return}DR.dataset.bg=m;if(m==="d"&&!DUELOPEN){alert("🔒 決鬥場尚未開放");return}if(m==="d"&&!tGate())return;$("menu").hidden=true;DR.hidden=false;D=TM=null;m==="t"?tSetup():m==="d"?dSetup():lvPick(m)}
 function lvPick(k){PK="f";D=null;$("dtitle").textContent="🖐 指法特訓";
- DB.innerHTML=`<h2>看音名，吹出正確指法</h2><div class="dmic"><p class="dintro">先按「開啟麥克風」。用真的直笛吹出正確的音高才算成功。建議在安靜的地方、一個人吹，並把喇叭音量調小或戴耳機。</p><div class="dmrow"><button id="dmic">🎤 開啟麥克風</button><span id="dmst">未開啟</span></div><div id="dmtest">🎤 開啟麥克風後，這裡會顯示偵測到的音</div><small id="dmmsg" role="alert"></small></div><p class="sub">選一個關卡</p><div class="lv">${LF.map((x,i)=>`<button data-lv="${i}">第 ${i+1} 關　${x[0]}</button>`).join("")}</div>${soloHTML()}`;$("dmic").onclick=()=>$("micbtn").click();try{micUI();$("dmmsg").textContent=$("micmsg").textContent}catch(e){}}
+ DB.innerHTML=`<h2>看音名，吹出正確指法</h2><div class="dmic"><p class="dintro">先按「開啟麥克風」。用直笛吹出正確的音高才算成功！建議在安靜的地方、一個人吹，並把喇叭音量調小或戴耳機。</p><div class="dmrow"><button id="dmic">🎤 開啟麥克風</button><span id="dmst">未開啟</span></div><div id="dmtest">🎤 開啟麥克風後，這裡會顯示偵測到的音</div><small id="dmmsg" role="alert"></small></div><p class="sub">選一個關卡</p><div class="lv">${LF.map((x,i)=>`<button data-lv="${i}">第 ${i+1} 關　${x[0]}</button>`).join("")}</div>${soloHTML()}`;$("dmic").onclick=()=>$("micbtn").click();try{micUI();$("dmmsg").textContent=$("micmsg").textContent}catch(e){}}
 // 指法特訓
 // 單音練習：高音直笛基本指法表的全部 27 個音（老師可勾選）
 const SOLO_ALL=[["C4"],["C#4","Db4"],["D4"],["D#4","Eb4"],["E4"],["F4"],["F#4","Gb4"],["G4"],["G#4","Ab4"],["A4"],["A#4","Bb4"],["B4"],["C5"],["C#5","Db5"],["D5"],["D#5","Eb5"],["E5"],["F5"],["F#5","Gb5"],["G5"],["G#5","Ab5"],["A5"],["A#5","Bb5"],["B5"],["C6"],["C#6","Db6"],["D6"]];

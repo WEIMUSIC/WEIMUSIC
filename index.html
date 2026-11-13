@@ -2660,7 +2660,7 @@ const _startGo=start;let RDYN=null;
  $("play").appendChild(el);$("rspd").innerHTML=$("speed").innerHTML;
  $("rspd").onchange=function(){$("speed").value=this.value;$("speed").dispatchEvent(new Event("change"));rnote()};
  $("racc").onchange=function(){const a=$("accon");if(a){a.value=this.value;a.dispatchEvent(new Event("change"))}else{ACCON=this.value==="1";try{localStorage.setItem("rgAcc",ACCON?"1":"0")}catch(e){}}};
- $("rback").onclick=()=>{el.hidden=true;toMenu()};$("rmet").onchange=function(){const m=$("metro");m.value=this.value;m.dispatchEvent(new Event("change"))};$("rfg").onchange=function(){const f=$("fgon");if(f){f.value=this.value;f.dispatchEvent(new Event("change"))}};$("rmic").onclick=()=>$("micbtn").click();try{new MutationObserver(()=>{$("rmmsg").textContent=$("micmsg").textContent;const dg=$("dmmsg");if(dg)dg.textContent=$("micmsg").textContent}).observe($("micmsg"),{childList:true,characterData:true,subtree:true})}catch(e){}
+ $("rback").onclick=()=>{el.hidden=true;toMenu()};$("rmet").onchange=function(){const m=$("metro");if(M68.has(RDYN)){if(this.value==="0"){m.value="0";M68M="2"}else{if(m.value==="0")m.value="4";M68M=this.value}try{localStorage.setItem("rgM68",M68M)}catch(e){}}else m.value=this.value;m.dispatchEvent(new Event("change"))};$("rfg").onchange=function(){const f=$("fgon");if(f){f.value=this.value;f.dispatchEvent(new Event("change"))}};$("rmic").onclick=()=>$("micbtn").click();try{new MutationObserver(()=>{$("rmmsg").textContent=$("micmsg").textContent;const dg=$("dmmsg");if(dg)dg.textContent=$("micmsg").textContent}).observe($("micmsg"),{childList:true,characterData:true,subtree:true})}catch(e){}
  $("rgo").onclick=async()=>{const n=RDYN;el.hidden=true;try{await _startGo(n)}catch(e){}if(n==="_basic"&&G&&G.name==="_basic")$("title").textContent="指法基本練習";if(!G||G.name!==n)toMenu()}}
 function rnote(){const n=RDYN,has=!!(n&&ACC[n]);$("rnote").textContent=(has?"排行榜會依速度分開計算":"這首歌沒有伴奏音")+(M68.has(n)?"　6/8 拍：節拍器可選 2 大拍或 6 小拍（遊戲中按節拍器鈕切換）。有伴奏時建議戴耳機，避免喇叭聲被麥克風收進去":"")}
 start=async function(name){
@@ -2668,7 +2668,7 @@ start=async function(name){
  ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume();
  G=null;RDYN=name;$("menu").hidden=true;$("play").hidden=false;$("over").hidden=true;
  $("rt").textContent=name==="_basic"?"指法基本練習":name;$("rspd").value=$("speed").value;const has=!!ACC[name];$("racc").value=ACCON?"1":"0";$("racc").disabled=!has;rnote();
- $("rmet").innerHTML=$("metro").innerHTML;$("rmet").value=$("metro").value;{const f=$("fgon");$("rfgl").hidden=!f;if(f){$("rfg").innerHTML=f.innerHTML;$("rfg").value=f.value}}$("rdy").hidden=false;try{micUI()}catch(e){}$("rgo").focus()};
+ if(M68.has(name)){$("rmet").innerHTML='<option value="2">節拍器：6/8・2 大拍</option><option value="6">節拍器：6/8・6 小拍</option><option value="0">節拍器：關</option>';$("rmet").value=$("metro").value==="0"?"0":M68M}else{$("rmet").innerHTML=$("metro").innerHTML;$("rmet").value=$("metro").value}{const f=$("fgon");$("rfgl").hidden=!f;if(f){$("rfg").innerHTML=f.innerHTML;$("rfg").value=f.value}}$("rdy").hidden=false;try{micUI()}catch(e){}$("rgo").focus()};
 $("fs").onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})};
 addEventListener("resize",size);
 document.addEventListener("pointerdown",()=>{if(ac&&ac.state!=="running")ac.resume().catch(()=>{})});

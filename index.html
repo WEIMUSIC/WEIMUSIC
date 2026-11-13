@@ -2876,7 +2876,7 @@ function build(){M.classList.add("hub");
 const RMq=matchMedia("(prefers-reduced-motion: reduce)").matches;
 function openSheet(id){[...M.querySelectorAll(".sheet")].forEach(s=>s.hidden=true);const s=$("sh-"+id);if(!s)return;if(id==="cls")renderCls();if(id==="q")renderQ(TAB);if(id==="sign")renderSign();if(id==="shop")renderShop();if(id==="pf")renderPf();s.hidden=false;const x=s.querySelector(".sx");x&&x.focus({preventScroll:true})}
 function closeSheet(s){s.hidden=true;hubRefresh()}
-const NGURL="https://weimusic.github.io/note-game/";
+const NGURL="https://weimusic.github.io/NOTE-GAME/";
 function act(a){if(a==="mic"){$("micbtn").click();setTimeout(hubRefresh,800);return}
  if(a==="f"||a==="t"||a==="b"||a==="d"){[...M.querySelectorAll(".sheet")].forEach(s=>s.hidden=true);openMode(a);return}
  if(a==="cert"){$("tbtn").click();return}if(a==="fs"){$("fs").click();return}

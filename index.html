@@ -1750,6 +1750,14 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 #rdy #rmst{font-weight:800;font-size:clamp(15px,2.2vw,20px)}
 #rdy #rmtest{width:min(420px,92%);min-height:40px;line-height:40px;border-radius:999px;background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.35);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;font-size:clamp(14px,2vw,18px)}
 #rdy #rmmsg{color:#ffb4a8;font-weight:700;max-width:560px}
+#drill .dmic{max-width:560px;margin:0 auto 14px;text-align:center}
+#drill .dintro{margin:0 0 10px;line-height:1.55;font-size:clamp(15px,2vw,18px);font-weight:700;color:#1b2a4a}
+#drill .dmrow{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+#drill #dmic{font-size:clamp(18px,2.5vw,22px);font-weight:900;padding:10px 22px;border-radius:999px;border:3px solid #1b2a4a;background:#fff;color:#1b2a4a;cursor:pointer}
+#drill #dmic.on{background:#2e9e5b;color:#fff;border-color:#fff}
+#drill #dmst{font-weight:800;color:#1b2a4a}
+#drill #dmtest{width:min(420px,92%);margin:10px auto 0;min-height:38px;line-height:38px;border-radius:999px;background:rgba(255,255,255,.75);border:2px solid #1b2a4a;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;color:#1b2a4a;font-weight:700}
+#drill #dmmsg{display:block;color:#c0392b;font-weight:700}
 </style>
 </head>
 <body>
@@ -1905,7 +1913,7 @@ async function initMic(){if(!window.isSecureContext||!navigator.mediaDevices||!n
  const z=ac.createGain();z.gain.value=0;an.connect(z);z.connect(ac.destination);
  buf=new Float32Array(2048);micOn=true;micUI();setTimeout(()=>{if(ac.state!=="running")ac.resume().catch(()=>{})},300)}
  catch(e){micOn=false;micUI();const n=e&&e.name;$("micmsg").textContent=n==="NotAllowedError"||n==="SecurityError"?(window.self!==window.top?"這個頁面嵌在 claude.ai 的視窗裡，嵌入視窗不允許使用麥克風（即使瀏覽器設定已允許）。請下載遊戲檔案，用 Chrome 或 Edge 直接開啟來玩。":"麥克風被封鎖了（"+n+"）。請按網址列的麥克風或鎖頭圖示改成「允許」後重新整理。"):n==="NotFoundError"?"找不到麥克風，請確認裝置有麥克風或已接上耳機麥克風。":"這個環境無法使用麥克風（"+(n||"不支援")+"）。請改用 Chrome／Edge／Safari 直接開啟頁面連結。"}}
-function micUI(){$("micst").textContent=micOn?"✅ 麥克風已開啟":"未開啟";$("micbtn").textContent=micOn?"🎤 麥克風已開啟":"🎤 開啟麥克風";if(micOn)$("micmsg").textContent="";const rb=$("rmic");if(rb){rb.textContent=micOn?"🎤 麥克風已開啟":"🎤 開啟麥克風";rb.classList.toggle("on",!!micOn);$("rmst").textContent=micOn?"✅ 已開啟":"未開啟"}}
+function micUI(){$("micst").textContent=micOn?"✅ 麥克風已開啟":"未開啟";$("micbtn").textContent=micOn?"🎤 麥克風已開啟":"🎤 開啟麥克風";if(micOn)$("micmsg").textContent="";const rb=$("rmic");if(rb){rb.textContent=micOn?"🎤 麥克風已開啟":"🎤 開啟麥克風";rb.classList.toggle("on",!!micOn);$("rmst").textContent=micOn?"✅ 已開啟":"未開啟"}const db=$("dmic");if(db){db.textContent=micOn?"🎤 麥克風已開啟":"🎤 開啟麥克風";db.classList.toggle("on",!!micOn);$("dmst").textContent=micOn?"✅ 已開啟":"未開啟"}}
 function detect(){if(!micOn||!an)return 0;an.getFloatTimeDomainData(buf);const f=pitch(buf,ac.sampleRate);FM=f?69+12*Math.log2(f/440):0;return f?Math.round(FM):0}
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const M68=new Set(["燈塔・第一部","燈塔・第二部"]);let M68M="2";try{M68M=localStorage.getItem("rgM68")==="6"?"6":"2"}catch(e){}
@@ -2229,7 +2237,7 @@ function sheetDraw(b,hx,ppb,sb,yy,W,pg,BH,H){
  let kx=96;cx.fillStyle="#1c1c1c";cx.textAlign="center";cx.textBaseline="middle";
  if(R.key){cx.font='bold 44px "Times New Roman",serif';cx.fillText("♯",kx,TOP+3);kx+=16}
  cx.font='900 40px "Times New Roman",serif';cx.fillText(R.ts[0],kx+16,TOP+18);cx.fillText(R.ts[1],kx+16,TOP+54)}
-function frame(){try{if(G&&!$("play").hidden){if(!G.over)update();draw()}else if(micOn&&(!$("menu").hidden||!$("rdy").hidden)){const m=detect(),bar="█".repeat(Math.min(10,Math.round(LV*150)))+"░".repeat(10-Math.min(10,Math.round(LV*150))),t=ac.state!=="running"?"⚠️ 音訊暫停中，請點一下畫面":(m?"🎤 "+NM[m%12]+" ":"🎤 — ")+"音量 "+bar;if(t!==$("mtest").textContent)$("mtest").textContent=t;const rm=$("rmtest");if(rm&&t!==rm.textContent)rm.textContent=t}}catch(e){}requestAnimationFrame(frame)}
+function frame(){try{if(G&&!$("play").hidden){if(!G.over)update();draw()}else if(micOn&&(!$("menu").hidden||!$("rdy").hidden||($("dmtest")&&!D))){const m=detect(),bar="█".repeat(Math.min(10,Math.round(LV*150)))+"░".repeat(10-Math.min(10,Math.round(LV*150))),t=ac.state!=="running"?"⚠️ 音訊暫停中，請點一下畫面":(m?"🎤 "+NM[m%12]+" ":"🎤 — ")+"音量 "+bar;if(t!==$("mtest").textContent)$("mtest").textContent=t;const rm=$("rmtest");if(rm&&t!==rm.textContent)rm.textContent=t;const dm=$("dmtest");if(dm&&t!==dm.textContent)dm.textContent=t}}catch(e){}requestAnimationFrame(frame)}
 // ---- 修改曲目 ----
 function chkTok(str){const bad=[],ok=[];String(str||"").replace(/｜/g,"|").replace(/'/g,"’").split("|").forEach(ph=>{const g=[];ph.trim().split(/\s+/).filter(Boolean).forEach(x=>{PT.test(x)?g.push(x):bad.push(x)});if(g.length)ok.push(g.join(" "))});return{text:ok.join(" | "),bad}}
 let ED=null,EDP=[];
@@ -2279,7 +2287,7 @@ function tGate(){if(TOK)return true;const o=TPG();if(!o){const n=prompt("這是�
  const c=prompt("🔒 請輸入老師密碼");if(c===null)return false;if(c!==o){alert("密碼不對");return false}TOK=true;return true}
 function openMode(m){if(m==="b"){startBasic();return}DR.dataset.bg=m;if(m==="d"&&!DUELOPEN){alert("🔒 決鬥場尚未開放");return}if(m==="d"&&!tGate())return;$("menu").hidden=true;DR.hidden=false;D=TM=null;m==="t"?tSetup():m==="d"?dSetup():lvPick(m)}
 function lvPick(k){PK="f";D=null;$("dtitle").textContent="🖐 指法特訓";
- DB.innerHTML=`<h2>看音名，吹出正確指法</h2><p class="sub">選一個關卡</p><div class="lv">${LF.map((x,i)=>`<button data-lv="${i}">第 ${i+1} 關　${x[0]}</button>`).join("")}</div>${soloHTML()}`}
+ DB.innerHTML=`<h2>看音名，吹出正確指法</h2><div class="dmic"><p class="dintro">先按「開啟麥克風」。用真的直笛吹出正確的音高才算成功。建議在安靜的地方、一個人吹，並把喇叭音量調小或戴耳機。</p><div class="dmrow"><button id="dmic">🎤 開啟麥克風</button><span id="dmst">未開啟</span></div><div id="dmtest">🎤 開啟麥克風後，這裡會顯示偵測到的音</div><small id="dmmsg" role="alert"></small></div><p class="sub">選一個關卡</p><div class="lv">${LF.map((x,i)=>`<button data-lv="${i}">第 ${i+1} 關　${x[0]}</button>`).join("")}</div>${soloHTML()}`;$("dmic").onclick=()=>$("micbtn").click();try{micUI();$("dmmsg").textContent=$("micmsg").textContent}catch(e){}}
 // 指法特訓
 // 單音練習：高音直笛基本指法表的全部 27 個音（老師可勾選）
 const SOLO_ALL=[["C4"],["C#4","Db4"],["D4"],["D#4","Eb4"],["E4"],["F4"],["F#4","Gb4"],["G4"],["G#4","Ab4"],["A4"],["A#4","Bb4"],["B4"],["C5"],["C#5","Db5"],["D5"],["D#5","Eb5"],["E5"],["F5"],["F#5","Gb5"],["G5"],["G#5","Ab5"],["A5"],["A#5","Bb5"],["B5"],["C6"],["C#6","Db6"],["D6"]];
@@ -2642,14 +2650,14 @@ const _startGo=start;let RDYN=null;
  $("play").appendChild(el);$("rspd").innerHTML=$("speed").innerHTML;
  $("rspd").onchange=function(){$("speed").value=this.value;$("speed").dispatchEvent(new Event("change"));rnote()};
  $("racc").onchange=function(){const a=$("accon");if(a){a.value=this.value;a.dispatchEvent(new Event("change"))}else{ACCON=this.value==="1";try{localStorage.setItem("rgAcc",ACCON?"1":"0")}catch(e){}}};
- $("rback").onclick=()=>{el.hidden=true;toMenu()};$("rmic").onclick=()=>$("micbtn").click();try{new MutationObserver(()=>{$("rmmsg").textContent=$("micmsg").textContent}).observe($("micmsg"),{childList:true,characterData:true,subtree:true})}catch(e){}
- $("rgo").onclick=async()=>{const n=RDYN;el.hidden=true;try{await _startGo(n)}catch(e){}if(!G||G.name!==n)toMenu()}}
+ $("rback").onclick=()=>{el.hidden=true;toMenu()};$("rmic").onclick=()=>$("micbtn").click();try{new MutationObserver(()=>{$("rmmsg").textContent=$("micmsg").textContent;const dg=$("dmmsg");if(dg)dg.textContent=$("micmsg").textContent}).observe($("micmsg"),{childList:true,characterData:true,subtree:true})}catch(e){}
+ $("rgo").onclick=async()=>{const n=RDYN;el.hidden=true;try{await _startGo(n)}catch(e){}if(n==="_basic"&&G&&G.name==="_basic")$("title").textContent="指法基本練習";if(!G||G.name!==n)toMenu()}}
 function rnote(){const n=RDYN,has=!!(n&&ACC[n]);$("rnote").textContent=(has?"排行榜會依速度分開計算":"這首歌沒有伴奏音")+(M68.has(n)?"　6/8 拍：節拍器可選 2 大拍或 6 小拍（遊戲中按節拍器鈕切換）。有伴奏時建議戴耳機，避免喇叭聲被麥克風收進去":"")}
 start=async function(name){
- if(!name||name[0]==="_"||!SONGS[name])return _startGo(name);
+ if(!name||(name[0]==="_"&&name!=="_basic")||!SONGS[name])return _startGo(name);
  ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume();
  G=null;RDYN=name;$("menu").hidden=true;$("play").hidden=false;$("over").hidden=true;
- $("rt").textContent=name;$("rspd").value=$("speed").value;const has=!!ACC[name];$("racc").value=ACCON?"1":"0";$("racc").disabled=!has;rnote();
+ $("rt").textContent=name==="_basic"?"指法基本練習":name;$("rspd").value=$("speed").value;const has=!!ACC[name];$("racc").value=ACCON?"1":"0";$("racc").disabled=!has;rnote();
  $("rdy").hidden=false;try{micUI()}catch(e){}$("rgo").focus()};
 $("fs").onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})};
 addEventListener("resize",size);

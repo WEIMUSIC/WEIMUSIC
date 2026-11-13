@@ -1743,7 +1743,7 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 .sx,#back,#dback,#rback,.mpback,[data-mback]{animation:bkGlow 2.2s ease-in-out infinite,bkBob 1.8s ease-in-out infinite}
 @keyframes bkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @media (prefers-reduced-motion:reduce){.sx,#back,#dback,#rback,.mpback,[data-mback]{animation:none}}
-#rdy .rintro{max-width:560px;line-height:1.55;opacity:.95;font-size:clamp(15px,2.1vw,19px)}
+#rdy .rintro{max-width:min(720px,94vw);line-height:1.5;opacity:1;font-weight:700;font-size:clamp(20px,2.8vw,28px)}
 #rdy .rmic{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
 #rdy #rmic{font-size:clamp(18px,2.6vw,24px);font-weight:900;padding:10px 22px;border-radius:999px;border:3px solid #ffe14d;background:#2b2f66;color:#ffe14d;cursor:pointer}
 #rdy #rmic.on{background:#2e9e5b;color:#fff;border-color:#b6f5cf}
@@ -1758,6 +1758,7 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 #drill #dmst{font-weight:800;color:#1b2a4a}
 #drill #dmtest{width:min(420px,92%);margin:10px auto 0;min-height:38px;line-height:38px;border-radius:999px;background:rgba(255,255,255,.75);border:2px solid #1b2a4a;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;color:#1b2a4a;font-weight:700}
 #drill #dmmsg{display:block;color:#c0392b;font-weight:700}
+#rdy .rc{gap:9px}
 </style>
 </head>
 <body>
@@ -2646,7 +2647,7 @@ $("back").onclick=toMenu;$("tomenu").onclick=toMenu;$("again").onclick=()=>start
 // ---- 開始前先選速度／伴奏音（開始後不能改） ----
 const _startGo=start;let RDYN=null;
 {const el=document.createElement("div");el.id="rdy";el.hidden=true;
- el.innerHTML='<div class="rc"><h2 id="rt"></h2><p class="rintro">先按「開啟麥克風」。用真的直笛吹出正確的音高才算成功，趕走小怪獸守住城堡。建議在安靜的地方、一個人吹，並把喇叭音量調小或戴耳機。</p><div class="rmic"><button id="rmic">🎤 開啟麥克風</button><span id="rmst">未開啟</span></div><div id="rmtest">🎤 開啟麥克風後，這裡會顯示偵測到的音</div><small id="rmmsg" role="alert"></small><p>開始前先選好速度和伴奏音，開始後就不能更改</p><label>速度<select id="rspd"></select></label><label>伴奏音<select id="racc"><option value="1">開</option><option value="0">關</option></select></label><small id="rnote"></small><div class="rb"><button class="big" id="rgo">▶ 開始</button><button id="rback">← 選單</button></div></div>';
+ el.innerHTML='<div class="rc"><h2 id="rt"></h2><p class="rintro">先按「開啟麥克風」。用直笛吹出正確的音高才算成功！建議在安靜的地方、一個人吹，並把喇叭音量調小或戴耳機。</p><div class="rmic"><button id="rmic">🎤 開啟麥克風</button><span id="rmst">未開啟</span></div><div id="rmtest">🎤 開啟麥克風後，這裡會顯示偵測到的音</div><small id="rmmsg" role="alert"></small><p>開始前先選好速度和伴奏音，開始後就不能更改</p><label>速度<select id="rspd"></select></label><label>伴奏音<select id="racc"><option value="1">開</option><option value="0">關</option></select></label><small id="rnote"></small><div class="rb"><button class="big" id="rgo">▶ 開始</button><button id="rback">← 選單</button></div></div>';
  $("play").appendChild(el);$("rspd").innerHTML=$("speed").innerHTML;
  $("rspd").onchange=function(){$("speed").value=this.value;$("speed").dispatchEvent(new Event("change"));rnote()};
  $("racc").onchange=function(){const a=$("accon");if(a){a.value=this.value;a.dispatchEvent(new Event("change"))}else{ACCON=this.value==="1";try{localStorage.setItem("rgAcc",ACCON?"1":"0")}catch(e){}}};

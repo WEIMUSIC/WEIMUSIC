@@ -2279,7 +2279,7 @@ function sheetDraw(b,hx,ppb,sb,yy,W,pg,BH,H){
  if(CLEFIMG.complete&&CLEFIMG.naturalWidth){const k=1.44;cx.drawImage(CLEFIMG,0,0,56,110,10,TOP-(45-16)*k,56*k,110*k)}
  let kx=96;cx.fillStyle="#1c1c1c";cx.textAlign="center";cx.textBaseline="middle";
  if(R.key){cx.font='bold 44px "Times New Roman",serif';cx.fillText("♯",kx,TOP+3);kx+=16}
- if(R.keyF){cx.font="900 46px serif";cx.fillText("♭",kx+4,sb-36);kx+=20}
+ if(R.keyF){const fx=kx-4,fy=sb-36;cx.strokeStyle="#1c1c1c";cx.lineCap="round";cx.lineWidth=2.6;cx.beginPath();cx.moveTo(fx,fy-33);cx.lineTo(fx,fy+11);cx.stroke();cx.lineWidth=3.6;cx.beginPath();cx.moveTo(fx,fy+11);cx.bezierCurveTo(fx+24,fy+2,fx+23,fy-14,fx,fy-8);cx.stroke();kx+=30}
  cx.font='900 40px "Times New Roman",serif';cx.fillText(R.ts[0],kx+16,TOP+18);cx.fillText(R.ts[1],kx+16,TOP+54)}
 function frame(){try{if(G&&!$("play").hidden){if(!G.over)update();draw()}else if(micOn&&(!$("menu").hidden||!$("rdy").hidden||($("dmtest")&&!D))){const m=detect(),bar="█".repeat(Math.min(10,Math.round(LV*150)))+"░".repeat(10-Math.min(10,Math.round(LV*150))),t=ac.state!=="running"?"⚠️ 音訊暫停中，請點一下畫面":(m?"🎤 "+NM[m%12]+" ":"🎤 — ")+"音量 "+bar;if(t!==$("mtest").textContent)$("mtest").textContent=t;const rm=$("rmtest");if(rm&&t!==rm.textContent)rm.textContent=t;const dm=$("dmtest");if(dm&&t!==dm.textContent)dm.textContent=t}}catch(e){}requestAnimationFrame(frame)}
 // ---- 修改曲目 ----

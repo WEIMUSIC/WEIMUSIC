@@ -2330,7 +2330,7 @@ function lvPick(k){PK="f";D=null;$("dtitle").textContent="🖐 指法特訓";
 const SOLO_ALL=[["C4"],["C#4","Db4"],["D4"],["D#4","Eb4"],["E4"],["F4"],["F#4","Gb4"],["G4"],["G#4","Ab4"],["A4"],["A#4","Bb4"],["B4"],["C5"],["C#5","Db5"],["D5"],["D#5","Eb5"],["E5"],["F5"],["F#5","Gb5"],["G5"],["G#5","Ab5"],["A5"],["A#5","Bb5"],["B5"],["C6"],["C#6","Db6"],["D6"]];
 const SOLO_ZONE=[["低音區",0,12],["中音區",12,24],["高音區",24,27]];
 let SOLOSEL=null;try{SOLOSEL=JSON.parse(localStorage.getItem("rgSoloSel")||"null")}catch(e){}
-if(!Array.isArray(SOLOSEL))SOLOSEL=SOLO_ALL.filter(x=>x.length===1).map(x=>x[0]);
+if(!Array.isArray(SOLOSEL))SOLOSEL=SOLO_ALL.filter(x=>x.length===1||x[0]==="F#4"||x[0]==="A#4").map(x=>x[0]);
 const soloLab=a=>{const o=a.map(t=>parse(t).notes[0]);return{o:o[0],nm:o.map(nmS).join(" / "),lt:o.map(x=>x.L+(Math.floor(x.n/12)-2)).join(" / ")}};
 function soloHTML(){const on=SOLO_ALL.filter(a=>SOLOSEL.includes(a[0]));
 return lfHTML()+`<h3 class="solo-h">🎯 單音練習：每個音穩穩吹 3 秒（3 次），練習氣流與音準</h3><div class="lv solo">${on.length?on.map(a=>{const L=soloLab(a);return`<button data-solo="${a[0]}"><b style="color:${CL[L.o.c]}">${esc(L.nm)}</b><small>${esc(L.lt)}</small></button>`}).join(""):'<p class="sub">老師還沒勾選要練習的音，請打開下方的老師設定。</p>'}</div>

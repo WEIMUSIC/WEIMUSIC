@@ -1989,15 +1989,15 @@ function pitchX(b,sr,S){const N=b.length,w=pitchX.w&&pitchX.w.length===N?pitchX.
  if(bk<0||ba<Math.max(S.r*1.5,aa*.1))return 0;
  const lo12=bk-48;if(lo12>0&&!bad(G0+lo12*ST)&&A[lo12]>=ba*.3&&A[lo12]>=A[lo12-1]&&A[lo12]>=A[lo12+1])bk=lo12;
  const a=A[bk-1],c=A[bk+1],x=A[bk],d=a-2*x+c,sh=d?.5*(a-c)/d:0,m=G0+(bk+(isFinite(sh)?Math.max(-1,Math.min(1,sh)):0))*ST;return 440*Math.pow(2,(m-69)/12)}
-function pitch(b,sr){const N=b.length;let r=0;for(let i=0;i<N;i++)r+=b[i]*b[i];LV=Math.sqrt(r/N);const S=SP();if(LV<S.r*.3)return 0;
+function pitch(b,sr){const N=b.length;let r=0;for(let i=0;i<N;i++)r+=b[i]*b[i];LV=Math.sqrt(r/N);const S=SP();if(LV<S.r*.18)return 0;
  if(ACX&&ACX.length)return pitchX(b,sr,S);
  const lo=Math.floor(sr/2400),hi=Math.floor(sr/480),ns=[];let best=-1,bl=0;
  for(let l=lo;l<=hi+1;l++){let a=0,m=0;for(let i=0;i<N-l;i++){a+=b[i]*b[i+l];m+=b[i]*b[i]+b[i+l]*b[i+l]}ns[l]=2*a/m;if(l<=hi&&ns[l]>best){best=ns[l];bl=l}}
  // 低音（約 Sol 以下）吹得比較輕、聲音比較小：音量與清晰度的門檻放寬
- const f0=sr/bl,s=Math.min(1,Math.max(0,(f0-820)/500)),rm=S.r*(.3+.7*s),cm=S.c-.12*(1-s);
+ const f0=sr/bl,s=Math.min(1,Math.max(0,(f0-820)/500)),rm=S.r*(.18+.82*s),cm=S.c-.2*(1-s);
  if(LV<rm||best<cm)return 0;for(let l=lo+1;l<=hi;l++){if(ns[l]>=best*.93&&ns[l]>=ns[l-1]&&ns[l]>=ns[l+1]){bl=l;break}}
  const a=ns[bl-1],c=ns[bl+1],x=ns[bl],d=2*(a-2*x+c),sh=d?(a-c)/d:0;return sr/(bl+(isFinite(sh)?sh:0))}
-const isOn=o=>o&&Math.abs(FM-o.n)<=SP().t&&G.cur;
+const isOn=o=>o&&Math.abs(FM-o.n)<=SP().t+(o.n<=77?.25:0)&&G.cur;
 function curNote(b){let c=null;for(const o of G.notes){if(o.b-.15<=b){if(b<o.b+o.d)c=o}else break}return c}
 function nextAfter(o){const k=G.notes.indexOf(o);return k>=0?G.notes[k+1]:null}
 function recTone(f,when,dur,v=1){const o=ac.createOscillator(),o2=ac.createOscillator(),vb=ac.createOscillator(),vg=ac.createGain(),g=ac.createGain(),g2=ac.createGain(),lp=ac.createBiquadFilter(),end=when+dur;

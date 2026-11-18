@@ -1819,7 +1819,7 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 <section id="drill" hidden><div id="dtop"><button id="dback">← 選單</button><b id="dtitle"></b></div><div id="dbody"></div></section>
 <script>
 const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const SONGS={"_basic":"1------- 0 | 2------- 0 | 3------- 0 | 4------- 0 | 5------- 0 | 6------- 0 | 7------- 0 | 1’------- 0 | 2’------- 0 | 3’------- 0 | 4’------- 0 | 5’------- 0",
+const SONGS={"_basic":"1------- 0 | 2------- 0 | 3------- 0 | 4------- 0 | 5------- 0 | 6------- 0 | 7------- 0 | 1’------- 0 | 2’------- 0 | 3’------- 0 | 4’------- 0 | 5’------- 0 | F#4------- 0 | Bb4------- 0",
 "快樂頌":"3 3 4 5 | 5 4 3 2 | 1 1 2 3 | 3- 2 2- | 3 3 4 5 | 5 4 3 2 | 1 1 2 3 | 2- 1 1-",
 "小星星":"1 1 5 5 | 6 6 5- | 4 4 3 3 | 2 2 1- | 5 5 4 4 | 3 3 2- | 5 5 4 4 | 3 3 2- | 1 1 5 5 | 6 6 5- | 4 4 3 3 | 2 2 1-",
 "瑪莉有隻小綿羊":"7 6 5 6 | 7 7 7- | 6 6 6- | 7 7 7- | 7 6 5 6 | 7 7 7- | 6 6 7 6 | 5---",
@@ -2875,7 +2875,7 @@ function build(){M.classList.add("hub");
  try{new MutationObserver(()=>{sgApply(sgt.dataset.f)}).observe(R.grid,{childList:true,subtree:true})}catch(e){}
  const tmb=document.createElement("div");tmb.className="tmrow";tmb.innerHTML='<button class="nvc tmb" data-a="t"><i>👥</i><b>小隊輪流</b><span>全班一起玩，各隊輪流上場累積分數</span></button><button class="nvc tmb" data-a="d"><i>⚔️</i><b>🔒 決鬥場</b><span>尚未開放</span></button>';
  mk("songs","🎵 旋律練功房",[qs,tmb,sgt,secs[1],R.grid,ver]);if(secs[1])secs[1].hidden=true;
- const nv=document.createElement("div");nv.className="nvg";nv.innerHTML=`<p class="sub" style="text-align:center;font-size:18px;grid-column:1/-1;margin:0">剛開始學直笛，先從這裡練起！</p><button class="nvc" data-a="f"><i>🖐</i><b>指法特訓</b><span>看音名吹出來，練熟每個音的指法</span></button><button class="nvc" data-a="b"><i>🎼</i><b>基本練習</b><span>每個音吹一個長音，從 Do 慢慢爬到高音 Sol</span></button>`;mk("nv","🌱 新手村",[nv]);
+ const nv=document.createElement("div");nv.className="nvg";nv.innerHTML=`<p class="sub" style="text-align:center;font-size:18px;grid-column:1/-1;margin:0">剛開始學直笛，先從這裡練起！</p><button class="nvc" data-a="f"><i>🖐</i><b>指法特訓</b><span>看音名吹出來，練熟每個音的指法</span></button><button class="nvc" data-a="b"><i>🎼</i><b>基本練習</b><span>每個音吹一個長音，從 Do 慢慢爬到高音 Sol，最後加練升 Fa 和降 Si</span></button>`;mk("nv","🌱 新手村",[nv]);
  mk("set","⚙️ 設定",[sub,set,tb]);
  mk("scan","📷 樂譜與傳送",[R.scan,R.file,R.scanmsg,R.share,xf]);
  {const w=document.createElement("div");w.className="ngw";w.innerHTML='<iframe id="ngf" title="魔法節奏屋" allow="autoplay;fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe><p class="ngmsg" id="ngm">載入中…若一直空白，請確認網路，或改用網址開啟：<a href="'+NGURL+'" target="_blank" rel="noopener">魔法節奏屋</a></p>';const c=mk("ng","🔮 魔法節奏屋",[w]);const sh=$("sh-ng"),stop=()=>{try{$("ngf").src="about:blank"}catch(e){}};sh.querySelector(".sx").addEventListener("click",stop);sh.addEventListener("click",e=>{if(e.target===sh)stop()})}

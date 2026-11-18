@@ -1855,7 +1855,7 @@ const NM=["C","C♯","D","D♯","E","F","F♯","G","G♯","A","A♯","B"];
 const freq=m=>440*Math.pow(2,(m-69)/12);
 function pinfo(s,hi){let L,a="",o;if(/^[0-7]$/.test(s)){L="CDEFGAB"[+s-1];o=hi?5:4}else{L=s[0];a=/\d/.test(s[1])?"":s[1];o=+s[s.length-1]}
  a=a==="#"?"♯":a==="b"?"♭":a;const k=a==="♯"?1:a==="♭"?-1:0;
- return{n:12*(o+2)+PC[L]+k,c:CI[L],L:L+a,S:SF[L]+a,N:CI[L]+a+(o>=5?"’":o<=3?",":""),st:o*7+"CDEFGAB".indexOf(L),A:a}}
+ return{n:12*(o+2)+PC[L]+k,c:CI[L],L:L+a,S:a+SF[L],N:a+CI[L]+(o>=5?"’":o<=3?",":""),st:o*7+"CDEFGAB".indexOf(L),A:a}}
 function parse(str){const notes=[];let b=0;String(str).replace(/｜/g,"|").split(/[\s|]+/).filter(Boolean).forEach(t=>{const m=t.match(PT);if(!m)return;const d=(1+m[3].length)/Math.pow(2,m[4].length)*(m[5]?1.5:1)+(m[6]?.5:0);if(m[1]!=="0")notes.push({...pinfo(m[1],m[2]),b,d,w:Math.min(.4,d*.5)});b+=d});return{notes,total:b}}
 let U={},STARS={},G=null,ac=null,an=null,buf=null,micOn=false,LV=0,MS=null,FM=0;
 try{U=JSON.parse(localStorage.getItem("rgUser")||"{}");STARS=JSON.parse(localStorage.getItem("rgStars")||"{}")}catch(e){}

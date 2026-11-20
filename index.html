@@ -2977,7 +2977,7 @@ function renderSign(){const c=$("sh-sign").querySelector(".sc"),cur=SG.n%7,can=c
  c.innerHTML=`<p class="sub" style="text-align:center;font-size:18px">每天來練習就能領獎勵！7 天一輪，第 7 天有大獎。已簽到 <b>${SG.n}</b> 天。</p><div class="sgrid">${SIGN.map((v,i)=>{const st=i<cur?"got":(i===cur&&can?"now":"");return`<div class="sday ${st}">第 ${i+1} 天<i>${i===6?"💎":i<cur?"✅":"💰"}</i>${v}</div>`}).join("")}</div><p style="text-align:center">${can?`<button class="big qa claim" id="dosign" style="font-size:24px;padding:10px 40px">🎁 簽到領 ${SIGN[cur]} 金幣</button>`:`<button class="big" disabled style="font-size:22px">今天已簽到，明天再來！</button>`}</p>`;
  const b=$("dosign");b&&(b.onclick=()=>{if(!canSign())return;const v=SIGN[SG.n%7];SG.n++;SG.last=today();LS.set("rgSign",SG);gain(10,v);toast(`🎁 簽到成功！💰 +${v}`,SG.n%7===0);renderSign()})}
 // ---- 扭蛋機（取代舊的頭像商店）----
-const GR=[["普通","#8d97a6",.55,20],["稀有","#2f8fe0",.28,50],["超稀有","#9a4fe0",.12,100],["傳說","#f0a800",.042,200],["神話","#ff4fa3",.008,400]],
+const GR=[["普通","#8d97a6",.555,0],["稀有","#2f8fe0",.28,0],["超稀有","#9a4fe0",.12,0],["傳說","#f0a800",.04,0],["神話","#ff4fa3",.005,0]],
  rarOf=p=>p<=150?0:p<=300?1:p<=600?2:p<=1000?3:4,GPOOL=[],GC1=120,GC10=1080,GPITY=40;
 const SPR=[
 ["🐱","喵喵精靈",0],["🐶","汪汪精靈",0],["🐰","兔兔精靈",0],["🐹","鼠鼠精靈",0],["🐥","小雞精靈",0],["🐸","呱呱精靈",0],["🐷","噗噗精靈",0],["🐼","圓圓精靈",0],["🐨","懶懶精靈",0],["🐢","慢慢精靈",0],
@@ -2990,24 +2990,29 @@ const SPP=[100,300,600,1000,1500];
 GPOOL.push(...SPR.map(x=>[x[0],SPP[x[2]]]));
 const spInfo=a=>SPR.find(x=>x[0]===a),spOwn=()=>PF.sp||(PF.sp={});
 const gTier=a=>rarOf((AVS.find(x=>x[0]===a)||GPOOL.find(x=>x[0]===a)||[0,0])[1]);
-function gRoll(minR){let t=0;if((PF.pity||0)>=GPITY-1){t=Math.random()<.84?3:4}else{let r=Math.random(),c=0;for(let k=0;k<5;k++){c+=GR[k][2];if(r<c){t=k;break}t=k}}
- if(minR&&t<minR)t=minR;const L=GPOOL.filter(x=>rarOf(x[1])===t);PF.pity=t>=3?0:(PF.pity||0)+1;return L[Math.floor(Math.random()*L.length)][0]}
+function gRoll(minR){let t=0,r=Math.random(),c=0;for(let k=0;k<5;k++){c+=GR[k][2];if(r<c){t=k;break}t=k}
+ if(minR&&t<minR)t=minR;const L=GPOOL.filter(x=>rarOf(x[1])===t);return L[Math.floor(Math.random()*L.length)][0]}
+const VCN="魔法藥水兌換券",VCH=(()=>{let v=LS.get("rgVouch",null);if(!v||!Array.isArray(v.list))v={left:16,list:[]};return v})();let VMSG="";
+function vchCheck(){VMSG="";if(PF.vcDone||Object.keys(spOwn()).length<SPR.length)return;
+ if(VCH.left>0){VCH.left--;const it={id:"v"+Date.now().toString(36)+Math.floor(Math.random()*999),n:PF.name||"",c:(typeof curC==="function"&&curC()&&curC().name)||"",t:Date.now(),u:0};VCH.list.push(it);PF.vcDone=1;PF.vcId=it.id;VMSG="🧪 恭喜集滿 50 隻精靈！獲得「"+VCN+"」，請找老師兌換！"}
+ else{PF.vcDone=2;VMSG="🎉 集滿 50 隻精靈了！可惜兌換券已經發完。"}
+ LS.set("rgVouch",VCH);LS.set("rgProf",PF)}
 function gPull(n){const cost=n===1?GC1:GC10;if(!GPOOL.length||coins()<cost)return null;addCoins(-cost);const out=[];let hi=false;
- for(let k=0;k<n;k++){const a=gRoll(n===10&&k===9&&!hi?1:0);if(gTier(a)>=1)hi=true;const t=gTier(a),isNew=!spOwn()[a];let back=0;if(isNew)PF.sp[a]=Date.now();else{back=GR[t][3];addCoins(back)}out.push({a,t,isNew,back})}
- LS.set("rgProf",PF);return out}
-function gCard(r,cls){const R=GR[r.t];return`<div class="gcard ${cls||""}" style="--rc:${R[1]}"><i>${r.a}</i><small style="font-weight:900">${(spInfo(r.a)||[0,""])[1]}</small><b>${R[0]}</b>${r.isNew?'<em class="gnew">NEW</em>':`<small>重複 +💰${r.back}</small>`}</div>`}
-function gachaFill(){const c=$("gbox"),empty=!GPOOL.length,left=Math.max(0,GPITY-(PF.pity||0));
+ for(let k=0;k<n;k++){const a=gRoll(n===10&&k===9&&!hi?1:0);if(gTier(a)>=1)hi=true;const t=gTier(a),isNew=!spOwn()[a];let back=0;if(isNew)PF.sp[a]=Date.now();out.push({a,t,isNew,back})}
+ LS.set("rgProf",PF);vchCheck();return out}
+function gCard(r,cls){const R=GR[r.t];return`<div class="gcard ${cls||""}" style="--rc:${R[1]}"><i>${r.a}</i><small style="font-weight:900">${(spInfo(r.a)||[0,""])[1]}</small><b>${R[0]}</b>${r.isNew?'<em class="gnew">NEW</em>':`<small>重複（沒有退幣）</small>`}</div>`}
+function gachaFill(){const c=$("gbox"),empty=!GPOOL.length;
  c.innerHTML=`<p class="sub" style="text-align:center;font-size:18px;margin:0 0 6px">用任務和簽到賺來的金幣扭蛋，收集 50 隻精靈！目前有 💰 <b>${coins()}</b></p>
  <div class="gwrap"><div class="gimg" id="gimg" role="img" aria-label="魔法扭蛋機"></div><div class="gbtns gov"><button class="qa claim gb" data-g="1"${!empty&&coins()>=GC1?"":" disabled"}>🎰 扭 1 次<br><small>💰 ${GC1}</small></button><button class="qa claim gb" data-g="10"${!empty&&coins()>=GC10?"":" disabled"}>🎰 十連扭<br><small>💰 ${GC10}・至少 1 個稀有</small></button></div><div id="gres"></div></div>
- <div class="gm"><p class="gtip">${empty?"🛠 新的扭蛋商品準備中，舊商品已全部下架。":`再扭 <b>${left}</b> 次，一定會出「傳說」以上！　重複的精靈會退還金幣。`}</p>
+ <div class="gm"><p class="gtip">${empty?"🛠 新的扭蛋商品準備中，舊商品已全部下架。":`集滿 50 隻精靈可以換「${VCN}」１張！　重複的精靈不會退幣。`}</p>
  <div class="godds">${GR.map(r=>`<span style="--rc:${r[1]}">${r[0]} ${(r[2]*100).toFixed(r[2]<.05?1:0)}%</span>`).join("")}</div></div>
- <p class="sub" style="text-align:center;font-size:18px">📖 圖鑑進度 <b>${Object.keys(spOwn()).length}</b> / ${SPR.length}</p>`;
+ <p class="sub" style="text-align:center;font-size:18px">📖 圖鑑進度 <b>${Object.keys(spOwn()).length}</b> / ${SPR.length}　🧪 兌換券剩 <b>${VCH.left}</b> 張${PF.vcDone===1?"　✅ 你已獲得兌換券！":""}</p>`;
  c.onclick=e=>{const g=e.target.closest("[data-g]");if(!g&&e.target.closest("#gres")&&!$("gres").querySelector(".gstage")){$("gres").innerHTML="";return}
   if(g){const n=+g.dataset.g,res=gPull(n);if(!res)return;const box=$("gres");hubRefresh();const gi=$("gimg");gi&&!RMq&&gi.classList.add("shk");
    box.innerHTML=`<div class="gstage"><div class="gcap${RMq?" still":""}"></div><p>扭蛋轉動中…</p></div>`;
    setTimeout(()=>{box.innerHTML=`<div class="gout">${res.map((r,k)=>gCard(r,"gpop"+(r.t>=3?" gbig":""))).join("")}</div><p class="sub" style="text-align:center;margin:4px 0 0">${res.some(r=>r.t>=3)?"🎉 太幸運了！出了稀有大獎！":"轉到的精靈已經放進圖鑑。"}</p>`;
     box.querySelectorAll(".gcard").forEach((el,k)=>el.style.animationDelay=(k*0.09)+"s");
-    const best=Math.max(...res.map(r=>r.t));if(best>=3)toast(`🎊 轉到${GR[best][0]}精靈！`,true);
+    if(VMSG){toast(VMSG,true);VMSG=""}const best=Math.max(...res.map(r=>r.t));if(best>=3)toast(`🎊 轉到${GR[best][0]}精靈！`,true);
     const keep=box.innerHTML;gachaFill();$("gres").innerHTML=keep},RMq?100:1300);return}
   const u=e.target.closest("[data-use]");if(u){PF.av=u.dataset.use;LS.set("rgProf",PF);const k=$("gres").innerHTML;gachaFill();$("gres").innerHTML=k;hubRefresh()}}}
 function renderPf(){const c=$("sh-pf").querySelector(".sc"),L=lvInfo();
@@ -3219,11 +3224,13 @@ function mapClick(e){const t=e.target;if(t.closest("[data-mback]")){leaveMap();r
 
 // ---- 商店 ----
 let STAB="gacha";
-renderShop=function(){if(!["gacha","dex","mine","acc","ava"].includes(STAB))STAB="gacha";const c=$("sh-shop").querySelector(".sc"),cn=coins(),tab=(id,l)=>`<button data-st="${id}" class="${STAB===id?"on":""}">${l}</button>`;
- let h=`<div class="shopbar"><div class="qtabs">${tab("gacha","🎰 扭蛋")}${tab("dex","📖 精靈圖鑑")}${tab("mine","🧚 我的精靈")}${tab("acc","🎩 我的配件")}${tab("ava","🙂 我的角色")}</div><span class="rs" style="color:#fff">💰 ${cn}</span></div>`;
+renderShop=function(){if(!["gacha","dex","mine","tch","acc","ava"].includes(STAB))STAB="gacha";const c=$("sh-shop").querySelector(".sc"),cn=coins(),tab=(id,l)=>`<button data-st="${id}" class="${STAB===id?"on":""}">${l}</button>`;
+ let h=`<div class="shopbar"><div class="qtabs">${tab("gacha","🎰 扭蛋")}${tab("dex","📖 精靈圖鑑")}${tab("mine","🧚 我的精靈")}${tab("tch","👩‍🏫 老師核對")}${tab("acc","🎩 我的配件")}${tab("ava","🙂 我的角色")}</div><span class="rs" style="color:#fff">💰 ${cn}</span></div>`;
  if(STAB==="gacha")h+=`<div id="gbox"></div>`;
  else if(STAB==="dex"){const o=spOwn();h+=`<p class="sub" style="text-align:center;font-size:20px;margin:6px 0">已收集 <b>${Object.keys(o).length}</b> / ${SPR.length}　${bar(Object.keys(o).length,SPR.length)}</p><div class="shopg spdex">${SPR.map(([e,n,t],i)=>{const has=!!o[e];return`<div class="shopi gi${has?"":" lock"}" style="--rc:${GR[t][1]}"><small style="font-weight:900;color:#8a8f99">No.${String(i+1).padStart(2,"0")}</small><i${has?"":' style="filter:brightness(0);opacity:.3"'}>${e}</i><small>${has?n:"？？？"}</small><small style="color:${GR[t][1]};font-weight:900">${has?GR[t][0]:"未取得"}</small></div>`}).join("")}</div>`}
- else if(STAB==="mine"){const o=spOwn(),L=SPR.map((x,i)=>[x,i]).filter(([x])=>o[x[0]]).sort((a,b)=>b[0][2]-a[0][2]||o[b[0][0]]-o[a[0][0]]);h+=L.length?`<p class="sub" style="text-align:center;font-size:18px">點一隻精靈，就能把它當成自己的頭像。</p><div class="shopg spmine">${L.map(([[e,n,t]])=>{const d=new Date(o[e]),cur=PF.av===e;return`<div class="shopi gi${cur?" cur":""}" data-spuse="${e}" style="--rc:${GR[t][1]}"><i>${e}</i><small style="font-weight:900">${n}</small><small style="color:${GR[t][1]};font-weight:900">${GR[t][0]}</small><small>${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} 取得</small></div>`}).join("")}</div>`:`<p class="sub" style="text-align:center;font-size:20px">還沒有精靈，到「🎰 扭蛋」轉一隻吧！</p>`}
+ else if(STAB==="tch"){const L=[...VCH.list].sort((a,b)=>(a.u?1:0)-(b.u?1:0)||b.t-a.t);h+=`<p class="sub">學生集滿 50 隻精靈會出現在這裡。領獎時請老師按「確認兌換」。<br>兌換券剩 <b>${VCH.left}</b> 張・已發出 ${VCH.list.length} 張・已兌換 ${VCH.list.filter(x=>x.u).length} 張</p><label style="font-weight:900">剩餘張數 <input id="vcleft" type="number" min="0" max="999" value="${VCH.left}" style="width:90px;font-size:18px"></label> <button class="qa" data-vcsave="1">儲存張數</button>
+  <div class="mclist" style="margin-top:10px">${L.map(x=>`<div class="mcmini${x.u?" used":""}" style="--rc:#3fae6a"><b>${esc(x.n||"（未命名）")}</b><small>${esc(x.c||"")}・${fmtD(x.t)} 集滿</small>${x.u?`<em>✔ ${fmtD(x.u)} 已兌換</em>`:`<button class="qa claim" data-vcok="${x.id}">確認兌換</button>`}</div>`).join("")||'<p class="sub">還沒有人集滿。</p>'}</div>`}
+ else if(STAB==="mine"){const o=spOwn(),L=SPR.map((x,i)=>[x,i]).filter(([x])=>o[x[0]]).sort((a,b)=>b[0][2]-a[0][2]||o[b[0][0]]-o[a[0][0]]);h+=(PF.vcDone===1?(()=>{const v=VCH.list.find(x=>x.id===PF.vcId);return`<div class="qr" style="background:#e9fff1;border:3px solid #3fae6a;margin-bottom:10px"><div class="qi">🧪</div><div><div class="qt">${VCN}</div><div class="qd">${v&&v.u?"✔ 已兌換（"+fmtD(v.u)+"）":"集滿 50 隻精靈的獎勵！拿給老師核對兌換。"}</div></div></div>`})():PF.vcDone===2?`<p class="sub" style="text-align:center">🎉 已集滿 50 隻精靈（兌換券已發完）</p>`:"")+(L.length?`<p class="sub" style="text-align:center;font-size:18px">點一隻精靈，就能把它當成自己的頭像。</p><div class="shopg spmine">${L.map(([[e,n,t]])=>{const d=new Date(o[e]),cur=PF.av===e;return`<div class="shopi gi${cur?" cur":""}" data-spuse="${e}" style="--rc:${GR[t][1]}"><i>${e}</i><small style="font-weight:900">${n}</small><small style="color:${GR[t][1]};font-weight:900">${GR[t][0]}</small><small>${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} 取得</small></div>`}).join("")}</div>`:`<p class="sub" style="text-align:center;font-size:20px">還沒有精靈，到「🎰 扭蛋」轉一隻吧！</p>`)}
  else if(STAB==="acc"){h+=`<div class="accprev"><i class="av big" style="${frameSt()}">${avHTML()}</i><div><b style="font-size:20px">我的角色</b><p class="sub" style="margin:4px 0">每一類可以戴一件，點「穿上」或「卸下」。</p></div></div>`;
   Object.keys(SLOT).forEach(sl=>{h+=`<h3 style="margin:12px 0 6px">${SLOT[sl]}</h3><div class="shopg">${ACC.filter(a=>a.s===sl&&PF.own.includes(a.id)).map(a=>{const own=true,on=PF.eq[sl]===a.id;return `<div class="shopi${on?" cur":""}"><i>${a.ic}</i><small>${a.n}</small>${on?`<button class="qa" data-off="${sl}">卸下</button>`:own?`<button class="qa" data-wear="${a.id}">穿上</button>`:`<button class="qa${cn>=a.p?" claim":""}" data-bacc="${a.id}"${cn>=a.p?"":" disabled"}>💰 ${a.p}</button>`}</div>`}).join("")}</div>`})}
  else if(STAB==="ava")h+=`<div class="shopg">${[["🎺",0],...AVS].filter(([a])=>a==="🎺"||PF.own.includes(a)).map(([a,p])=>{const own=true,cur=PF.av===a;return`<div class="shopi${cur?" cur":""}"><i>${AV(a)}</i>${cur?`<button class="qa" disabled>使用中</button>`:own?`<button class="qa" data-use="${a}">使用</button>`:`<button class="qa${cn>=p?" claim":""}" data-buy="${a}"${cn>=p?"":" disabled"}>💰 ${p}</button>`}</div>`}).join("")}</div>`;
@@ -3239,7 +3246,9 @@ renderShop=function(){if(!["gacha","dex","mine","acc","ava"].includes(STAB))STAB
  c.oninput=e=>{const t=e.target;if(t.dataset.cn!=null)CCFG.cards[+t.dataset.cn].n=t.value.trim();if(t.dataset.cd!=null)CCFG.cards[+t.dataset.cd].d=t.value.trim();if(t.dataset.cr!=null)CCFG.cards[+t.dataset.cr].r=t.value;if(t.id==="mcprice")CCFG.price=Math.max(10,Math.min(5000,Math.round(+t.value||100)))};
  c.onchange=c.oninput;
  c.onclick=e=>{const b=e.target.closest("button");if(!b)return;const d=b.dataset;
-  if(d.st){if(!["gacha","dex","mine","acc","ava"].includes(d.st))return;STAB=d.st;return renderShop()}
+  if(d.st){if(!["gacha","dex","mine","tch","acc","ava"].includes(d.st))return;STAB=d.st;return renderShop()}
+  if(d.vcok){const v=VCH.list.find(x=>x.id===d.vcok);if(v&&!v.u&&confirm(`確認 ${v.n||"這位同學"} 兌換「${VCN}」？\n按確定後會標記為已兌換。`)){v.u=Date.now();LS.set("rgVouch",VCH);toast("✔ 已兌換")}}
+  if(d.vcsave){VCH.left=Math.max(0,Math.round(+$("vcleft").value||0));LS.set("rgVouch",VCH);toast("💾 已儲存")}
   if(d.use){PF.av=d.use;LS.set("rgProf",PF)}
   if(d.buy){const it=AVS.find(x=>x[0]===d.buy);if(it&&coins()>=it[1]&&!PF.own.includes(it[0])){addCoins(-it[1]);PF.own.push(it[0]);PF.av=it[0];LS.set("rgProf",PF);toast(`🛒 換到新角色！${/^@/.test(it[0])?"":it[0]}`)}}
   if(d.bacc){const a=ACC.find(x=>x.id===d.bacc);if(a&&coins()>=a.p&&!PF.own.includes(a.id)){addCoins(-a.p);PF.own.push(a.id);PF.eq[a.s]=a.id;LS.set("rgProf",PF);toast(`🛒 買到「${a.n}」${a.ic}，已經穿上！`)}}

@@ -2994,7 +2994,7 @@ function gRoll(minR){let t=0,r=Math.random(),c=0;for(let k=0;k<5;k++){c+=GR[k][2
  if(minR&&t<minR)t=minR;const L=GPOOL.filter(x=>rarOf(x[1])===t);return L[Math.floor(Math.random()*L.length)][0]}
 const VCN="魔法藥水兌換券",VCH=(()=>{let v=LS.get("rgVouch",null);if(!v||!Array.isArray(v.list))v={left:16,list:[]};return v})();let VMSG="";
 /* ===== Firebase（全班共用兌換券名單）：填好 projectId 與 apiKey 就會啟用；留空則只存在這台平板 ===== */
-const FBCFG={projectId:"",apiKey:""},VCMAX=16;
+const FBCFG={projectId:"recorder-2b46c",apiKey:"AIzaSyClyxCsaD_d9nKw97H5IqSl6iQle13lqP8"},VCMAX=16;
 const FB=()=>!!(FBCFG.projectId&&FBCFG.apiKey),FBU=p=>`https://firestore.googleapis.com/v1/projects/${FBCFG.projectId}/databases/(default)/documents/${p}`;
 const fbv=f=>({n:(f.name||{}).stringValue||"",c:(f.cls||{}).stringValue||"",uid:(f.uid||{}).stringValue||"",t:+((f.t||{}).integerValue||0),u:+((f.used||{}).integerValue||0)});
 async function vcList(){const r=await fetch(FBU("slots")+"?pageSize=300&key="+FBCFG.apiKey);if(!r.ok)throw new Error("list "+r.status);const j=await r.json();return(j.documents||[]).map(d=>({id:d.name.split("/").pop(),...fbv(d.fields||{})}))}

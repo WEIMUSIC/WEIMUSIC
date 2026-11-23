@@ -1824,6 +1824,11 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 @keyframes gfloat2{0%{transform:translate(0,0)}25%{transform:translate(-26px,-22px)}50%{transform:translate(-44px,-6px)}75%{transform:translate(-18px,-30px)}100%{transform:translate(0,0)}}
 @media (prefers-reduced-motion:reduce){#guard{animation:none!important}}@media (max-height:620px){#guard{width:120px!important}}
 @media (max-height:820px){#sh-nv .nvbird{left:calc(50% - clamp(260px,28vw,380px))}}
+
+.gwarn{position:fixed;inset:0;z-index:99990;background:rgba(20,15,50,.6);display:grid;place-items:center;padding:16px}
+.gwbox{background:#fffdf3;color:#3a2a00;border:5px solid #ffcf4a;border-radius:24px;padding:22px 26px;max-width:min(460px,92vw);text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.gwbox h3{margin:0 0 10px;font-size:clamp(22px,3vw,28px)}.gwbox p{margin:8px 0;font-size:clamp(16px,2.2vw,20px);line-height:1.55}.gwbox b{color:#c0392b}
+.gwb{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}.gwb button{font:inherit;font-weight:900;font-size:18px;padding:10px 20px;border-radius:16px;border:3px solid #8a6200;background:#fff;color:#5a4000;cursor:pointer}.gwb .big{background:#ffd94a}
 </style>
 </head>
 <body>
@@ -3085,6 +3090,7 @@ function vchCheck(){VMSG="";if(Object.keys(spOwn()).length<SPR.length)return;
  if(VCH.left>0){VCH.left--;const it={id:"v"+Date.now().toString(36)+Math.floor(Math.random()*999),n:PF.name||"",c:(typeof curC==="function"&&curC()&&curC().name)||"",t:Date.now(),u:0};VCH.list.push(it);PF.vcDone=1;PF.vcId=it.id;VMSG="🔑 恭喜集滿 50 隻精靈！獲得「"+VCN+"」，請找老師兌換！"}
  else{PF.vcDone=2;VMSG="🎉 集滿 50 隻精靈了！可惜兌換券已經發完。"}
  LS.set("rgVouch",VCH);LS.set("rgProf",PF)}
+function gWarn(go){const o=document.createElement("div");o.className="gwarn";o.setAttribute("role","dialog");o.innerHTML='<div class="gwbox"><h3>🪙 抽之前請先看一下</h3><p>你的金幣<b>只存在這一台電腦或平板上</b>。</p><p>家裡的電腦、學校的平板，金幣和抽到的精靈<b>不會互通</b>。</p><p>請在同一台裝置上抽，才不會看不到。</p><div class="gwb"><button class="big" data-y>我知道了，開始抽</button><button data-n>先不要</button></div></div>';document.body.appendChild(o);o.onclick=e=>{if(e.target.closest("[data-y]")){o.remove();go()}else if(e.target.closest("[data-n]")||e.target===o)o.remove()}}
 function gPull(n){const cost=n===1?GC1:GC10;if(!GPOOL.length||coins()<cost)return null;addCoins(-cost);const out=[];let hi=false;
  for(let k=0;k<n;k++){const a=gRoll(n===10&&k===9&&!hi?1:0);if(gTier(a)>=1)hi=true;const t=gTier(a),isNew=!spOwn()[a];let back=0;if(isNew)PF.sp[a]=Date.now();out.push({a,t,isNew,back})}
  LS.set("rgProf",PF);vchCheck();return out}
@@ -3096,6 +3102,7 @@ function gachaFill(){const c=$("gbox"),empty=!GPOOL.length;
  <div class="godds">${GR.map(r=>`<span style="--rc:${r[1]}">${r[0]} ${(r[2]*100).toFixed(r[2]<.05?1:0)}%</span>`).join("")}</div></div>
  <p class="sub" style="text-align:center;font-size:18px">📖 圖鑑進度 <b>${Object.keys(spOwn()).length}</b> / ${SPR.length}　${vkI(22)} 兌換券剩 <b>${VCH.left}</b> 張${PF.vcDone===1?"　✅ 你已獲得兌換券！":PF.vcDone===3?"　⏳ 兌換券登記中（需要網路）":""}</p>`;
  c.onclick=e=>{const g=e.target.closest("[data-g]");if(!g&&e.target.closest("#gres")&&!$("gres").querySelector(".gstage")){$("gres").innerHTML="";return}
+  if(g&&!g._ok&&coins()>=(+g.dataset.g===1?GC1:GC10)){gWarn(()=>{g._ok=1;g.click();g._ok=0});return}
   if(g){const n=+g.dataset.g,res=gPull(n);if(!res)return;const box=$("gres");hubRefresh();const gi=$("gimg");gi&&!RMq&&gi.classList.add("shk");
    box.innerHTML=`<div class="gstage"><div class="gcap${RMq?" still":""}"></div><p>扭蛋轉動中…</p></div>`;
    setTimeout(()=>{box.innerHTML=`<div class="gout">${res.map((r,k)=>gCard(r,"gpop"+(r.t>=3?" gbig":""))).join("")}</div><p class="sub" style="text-align:center;margin:4px 0 0">${res.some(r=>r.t>=3)?"🎉 太幸運了！出了稀有大獎！":"轉到的精靈已經放進圖鑑。"}</p>`;

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>魔法節奏屋</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2b2a33;--muted:#6f6a7c;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:'Noto Sans TC',system-ui,sans-serif;color:var(--ink);
+  background:radial-gradient(circle at 20% 10%,#f6e7ff 0,transparent 40%),radial-gradient(circle at 85% 90%,#e3ecff 0,transparent 45%),linear-gradient(#fbf6ff,#f1e8ff);}
+#menu{min-height:100%;display:flex;flex-direction:column}
+header{text-align:center;padding:4vh 16px 2vh;position:relative}
+h1{margin:0;font-size:clamp(30px,5.5vw,56px);font-weight:900;letter-spacing:.08em;color:#5b2d9e;text-shadow:0 3px 0 #e2d0ff}
+.sub{color:var(--muted);font-size:clamp(14px,1.9vw,19px);margin-top:6px}
+.spark{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.spark i{position:absolute;font-style:normal;font-size:24px;opacity:.5;animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{opacity:.1;transform:scale(.7) rotate(20deg)}}
+main{max-width:1100px;width:100%;margin:0 auto;padding:6px 20px 60px;flex:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.card{position:relative;display:flex;flex-direction:column;gap:8px;text-align:left;font:inherit;color:inherit;cursor:pointer;background:#fff;
+  border-radius:26px;padding:20px 20px 18px;border:5px solid var(--c);box-shadow:0 8px 0 var(--c),0 14px 26px rgba(70,30,120,.15);
+  transition:transform .15s,box-shadow .15s;min-height:210px}
+.card:hover{transform:translateY(-4px) rotate(-.6deg)}
+.card:active{transform:translateY(4px);box-shadow:0 3px 0 var(--c)}
+.card .ico{font-size:60px;line-height:1}
+.card .nm{font-size:26px;font-weight:900;color:var(--c)}
+.card .ds{color:var(--muted);font-size:15px;line-height:1.5;flex:1}
+.card .go{align-self:flex-start;background:var(--c);color:#fff;font-weight:900;border-radius:14px;padding:5px 15px;font-size:16px}
+.card .tag{position:absolute;top:14px;right:16px;font-size:12px;font-weight:700;background:#f3efe6;color:var(--muted);border-radius:10px;padding:2px 10px}
+.card.soon{filter:grayscale(.7);opacity:.55;cursor:not-allowed;box-shadow:0 8px 0 #ccc}
+.card.soon .go{background:#aaa}
+#play{position:fixed;inset:0;display:none;flex-direction:column;background:#fff;z-index:5}
+#play.on{display:flex}
+.bar{display:flex;align-items:center;gap:12px;padding:6px 10px;background:#5b2d9e;color:#fff;flex:none}
+.bar button{border:none;border-radius:12px;background:#fff;color:#5b2d9e;font:inherit;font-weight:900;padding:6px 14px;cursor:pointer}
+.bar b{font-size:18px}
+.bar a{margin-left:auto;color:#e9dcff;font-size:13px}
+#gf{flex:1;border:0;width:100%;background:#fff}
+</style>
+</head>
+<body>
+<div id="menu">
+  <header>
+    <div class="spark"><i style="left:8%;top:25%">✨</i><i style="left:20%;top:70%;animation-delay:1s">🎵</i><i style="right:9%;top:30%;animation-delay:.6s">✨</i><i style="right:22%;top:70%;animation-delay:1.6s">🎶</i></div>
+    <h1>🔮 魔法節奏屋</h1>
+    <div class="sub">選一個魔法遊戲，開始挑戰吧！</div>
+  </header>
+  <main><div class="grid" id="games"></div></main>
+</div>
+<div id="play"><div class="bar"><button id="back">◀ 回魔法節奏屋</button><b id="gname"></b><a id="gnew" target="_blank" rel="noopener">在新分頁開啟</a></div><iframe id="gf" allow="autoplay;fullscreen" title="遊戲"></iframe></div>
+<script>
+/* ===== 魔法節奏屋的遊戲清單：要新增或修改，改這裡就好 =====
+   url 留空 ''，卡片會顯示「即將推出」並且不能點。                       */
+const GAMES=[
+  {icon:'🫧',name:'唱名泡泡',desc:'唱名泡泡掉下來，跟著節奏點出正確的音！',url:'https://weimusic.github.io/NOTE-GAME/',color:'#2e86de',tag:'個人'},
+  {icon:'🎲',name:'學樂大富翁',desc:'擲骰子、答反覆記號的題目，買地蓋房子！',url:'https://weimusic.github.io/repeat-signs/',color:'#e4572e',tag:'分組・平板'},
+  {icon:'🗺️',name:'音樂搶地盤',desc:'五隊搶星星地圖，答對就能佔領地盤！',url:'',color:'#8e5cd9',tag:'分組'},
+  {icon:'🔍',name:'音樂解謎室',desc:'解開簡譜、唱名和五線譜的密碼！',url:'',color:'#e0a100',tag:'小隊'}
+];
+const $=id=>document.getElementById(id);
+$('games').innerHTML=GAMES.map((g,i)=>`<button class="card${g.url?'':' soon'}" data-i="${i}" style="--c:${g.color}" ${g.url?'':'aria-disabled="true"'}>
+  ${g.tag?`<span class="tag">${g.tag}</span>`:''}<div class="ico">${g.icon}</div><div class="nm">${g.name}</div><div class="ds">${g.desc}</div>
+  <span class="go">${g.url?'開始玩 ▶':'即將推出'}</span></button>`).join('');
+$('games').onclick=e=>{const b=e.target.closest('.card');if(!b)return;const g=GAMES[+b.dataset.i];if(!g.url)return;
+  $('gname').textContent=g.icon+' '+g.name;$('gnew').href=g.url;$('gf').src=g.url;$('play').classList.add('on');};
+$('back').onclick=()=>{$('play').classList.remove('on');$('gf').src='about:blank';};
+</script>
+</body>
+</html>

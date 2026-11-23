@@ -3372,7 +3372,7 @@ const _hr=hubRefresh;hubRefresh=function(){_hr();if(!$("pfnm"))return;const av=$
  const hv=$("hav");hv&&(hv.innerHTML=`<i>${avHTML()}</i>${esc(curC().name)}・${R.ic} ${R.name}`)};
 const _rp0=renderPf;renderPf=function(){_rp0();const a=$("sh-pf").querySelector(".av");if(a){a.style.cssText+=";"+frameSt();a.innerHTML=avHTML()+`<b>Lv ${lvInfo().l}</b>`}};
 const MAPOPEN=false; // 要開放音樂冒險地圖時，把這裡改成 true
-const SHOPOPEN=false; // 商店（扭蛋）設定好之後，把這裡改成 true 就會開放
+const SHOPOPEN=true; // 商店（扭蛋）設定好之後，把這裡改成 true 就會開放
 const _os=openSheet;openSheet=function(id){if(id==="shop"&&!SHOPOPEN){toast("🔒 商店準備中<br>老師開放後就能進來囉！");return}if(id==="map"&&!MAPOPEN){toast("🔒 音樂冒險地圖<br>敬請期待，老師開放後就能出發！");return}if(id==="map"){mapFlash(()=>{const sh=mkSheet("map","🗺️ 音樂冒險地圖");sh.classList.add("mpfull");document.body.appendChild(sh);[...M.querySelectorAll(".sheet")].forEach(x=>x.hidden=true);M.style.visibility="hidden";sh.hidden=false;renderMap()});return}if(id==="rank"){renderHall()}_os(id)};
 const _act=act;act=function(a){if(a==="map"||a==="rank")return openSheet(a);return _act(a)};
 window.__afterBuild=()=>{{const sb=document.querySelector('.ib[data-a="shop"]');if(sb&&!SHOPOPEN){sb.querySelector("i").textContent="🔒";sb.querySelector("span").textContent="商店";sb.style.opacity=".75"}}{const im=document.querySelector("#hubbg img:not(.bk)"),bk=document.querySelector("#hubbg img.bk");bk&&im&&(bk.src=im.src)}$("hubb").insertAdjacentHTML("beforeend",ib("map",MAPOPEN?"🗺️":"🔒","音樂冒險地圖")+ib("rank","🏆","榮耀殿堂"));if(!MAPOPEN){const mb=$("hubb").querySelector('[data-a="map"]');mb&&mb.classList.add("lk")}

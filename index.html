@@ -1970,6 +1970,10 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 #welc .wbg{filter:blur(1.5px) saturate(1.08) brightness(1.06)}#welc .wsh{background:radial-gradient(ellipse at 50% 42%,rgba(255,255,255,.5),rgba(255,248,230,.28) 55%,rgba(120,90,170,.22) 100%)}#welc .wmon img{filter:drop-shadow(0 3px 6px rgba(60,35,110,.4))}
 #welc .wsh{background:linear-gradient(rgba(255,255,255,.46),rgba(255,255,255,.46)),radial-gradient(ellipse at 50% 45%,rgba(255,255,255,.25),rgba(140,110,190,.2) 100%)}
 #welc .wq{color:#3d2275;text-shadow:0 0 3px #fff,0 0 8px #fff,0 0 14px #fff}
+@keyframes wjump{0%,55%,100%{transform:translateY(0) scale(1,1)}10%{transform:translateY(0) scale(1.08,.88)}28%{transform:translateY(-18px) scale(.95,1.08)}42%{transform:translateY(0) scale(1.06,.92)}48%{transform:translateY(-4px) scale(1)}}
+#welc .wt span{animation:wpop .6s cubic-bezier(.3,1.8,.5,1) both,wjump 2.6s ease-in-out infinite;animation-delay:inherit}
+#welc .wsub{animation:wbob 2.4s ease-in-out 2s infinite}#welc .wq{animation:wbob 2.2s ease-in-out 2.4s infinite}
+@media (prefers-reduced-motion:reduce){#welc .wt span,#welc .wsub,#welc .wq{animation:none!important}}
 </style>
 </head>
 <body>

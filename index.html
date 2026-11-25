@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>音樂冒險王國</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;700;900&display=swap">
 <script>
 /* QRCode for JavaScript, Copyright (c) 2009 Kazuhiko Arase, MIT license. Bundled from qrcode-terminal vendor copy. */
 window.QRGen=(function(){var M={"./QR8bitByte":function(module,exports,require){
@@ -1270,7 +1271,7 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 :root[data-theme="dark"]{--bg1:#1d2b5f;--bg2:#3a2a6e;--card:#2b2f66;--ink:#f3f1ff;--mute:#b9b6e6;--line:#8f8bff}
 *{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
 html,body{height:100%;margin:0}
-body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);background:linear-gradient(var(--bg1),var(--bg2));overflow:hidden}
+body{font-family:"Chiron GoRound TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);background:linear-gradient(var(--bg1),var(--bg2));overflow:hidden}
 button,select{font:inherit;font-weight:500;border-radius:12px;border:3px solid var(--line);background:var(--card);color:var(--ink);padding:6px 12px;cursor:pointer}
 button:focus-visible,select:focus-visible,.card:focus-visible{outline:4px solid var(--hit)}
 .big{background:var(--hit);color:#2a2200;font-weight:900;font-size:18px;padding:10px 22px;border-color:#2a2200}
@@ -1991,14 +1992,6 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 @media (max-width:640px){#welc .wg{grid-template-columns:repeat(2,auto)}}
 #welc .wgb{height:clamp(170px,32vh,300px)}#welc .wgb i{font-size:clamp(34px,5.4vh,58px);margin-top:10%}#welc .wgb b{font-size:clamp(24px,4.4vh,42px)}#welc .wmon img{max-height:24vh;width:min(1100px,94vw,calc(24vh*3.5))}
 #welc .wgb{height:clamp(130px,25vh,230px)}#welc .wgb i{font-size:clamp(28px,4.3vh,46px)}#welc .wgb b{font-size:clamp(20px,3.6vh,34px)}#welc .wmon img{max-height:31vh;width:min(1200px,96vw,calc(31vh*3.5))}
-#fontp{position:fixed;inset:0;z-index:9995;display:grid;place-items:center;background:rgba(30,15,60,.55);padding:12px}
-#fontp .fb{background:#fff8e6;border:4px solid #e0a83a;border-radius:22px;padding:16px;width:min(560px,96vw);max-height:92vh;overflow:auto;box-shadow:0 10px 30px rgba(0,0,0,.4)}
-#fontp h2{margin:0 0 4px;text-align:center;color:#4b2c80}#fontp .fs{margin:0 0 10px;text-align:center;font-size:14px;color:#6a5a8a}
-#fontp .fo{display:block;width:100%;text-align:left;margin:7px 0;padding:10px 14px;border-radius:14px;border:3px solid #e2c98a;background:#fff;cursor:pointer;color:#3a2a5a}
-#fontp .fo.on{border-color:#7b4fd0;background:#efe6ff;box-shadow:0 0 0 3px #cdb8f5}
-#fontp .fo b{display:block;font-size:22px}#fontp .fo small{font-size:13px;color:#7a6a9a;font-family:"Noto Sans TC",sans-serif}
-#fontp .fx{display:block;margin:10px auto 0;padding:8px 28px;font-size:18px;font-weight:900;border-radius:999px;border:3px solid #7b4fd0;background:#7b4fd0;color:#fff;cursor:pointer}
-body.fontx,body.fontx *{font-family:var(--ff),"Noto Sans TC",sans-serif!important}
 </style>
 </head>
 <body>
@@ -3679,17 +3672,7 @@ function welcome(again){let w=$("welc");if(w)w.remove();w=document.createElement
 function gradeBtn(){const b=$("hubl")&&$("hubl").querySelector('[data-a="grade"]');if(b)b.querySelector("span").textContent=PICKG?grName(PICKG):"選擇年級"}
 const _actG=act;act=function(a){if(a==="grade"){welcome(true);return}return _actG.apply(this,arguments)};
 
-// ---- 🔤 字體選擇（每台裝置各自記住） ----
-const FONTS=[["預設（黑體）","","Noto Sans TC","Noto+Sans+TC:wght@500;900"],["圓體（可愛）","圓滑好讀","Chiron GoRound TC","Chiron+GoRound+TC:wght@400;700;900"],["粉圓體","手寫圓潤","Huninn","Huninn"],["芫荽體","清新手寫","Iansui","Iansui"],["文楷體（楷書）","適合閱讀","LXGW WenKai TC","LXGW+WenKai+TC:wght@400;700"],["宋體（明體）","","Noto Serif TC","Noto+Serif+TC:wght@500;900"]];
-const fontLoad=i=>{const f=FONTS[i];if(!f||!f[2]||i===0)return;const id="fl"+i;if(document.getElementById(id))return;const l=document.createElement("link");l.id=id;l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family="+f[3]+"&display=swap";document.head.appendChild(l)};
-function fontApply(i){const f=FONTS[i];if(!f||i===0){document.body.classList.remove("fontx");document.body.style.removeProperty("--ff");return}fontLoad(i);document.body.style.setProperty("--ff",'"'+f[2]+'"');document.body.classList.add("fontx")}
-let FONTI=0;try{FONTI=+localStorage.getItem("rgFont")||0}catch(e){}
-function fontPick(){let w=$("fontp");if(w)w.remove();FONTS.forEach((f,i)=>fontLoad(i));w=document.createElement("div");w.id="fontp";w.setAttribute("role","dialog");
- const draw=()=>{w.innerHTML=`<div class="fb"><h2>🔤 選擇字體</h2><p class="fs">點一下就會換，這台裝置會記住你的選擇</p>${FONTS.map((f,i)=>`<button class="fo${i===FONTI?" on":""}" data-i="${i}" style="font-family:'${f[2]}',sans-serif!important"><b>音樂冒險王國 Do Re Mi 123</b><small>${f[0]}${f[1]?"・"+f[1]:""}</small></button>`).join("")}<button class="fx" data-x="1">完成</button></div>`};
- draw();document.body.appendChild(w);
- w.onclick=e=>{const b=e.target.closest("[data-i],[data-x]");if(!b){if(e.target===w)w.remove();return}if(b.dataset.x){w.remove();return}FONTI=+b.dataset.i;try{localStorage.setItem("rgFont",String(FONTI))}catch(x){}fontApply(FONTI);draw()}}
-const _actF=act;act=function(a){if(a==="font"){fontPick();return}return _actF.apply(this,arguments)};
-const _abTour=window.__afterBuild;window.__afterBuild=()=>{_abTour&&_abTour();const hr0=$("hubr");let hl=$("hubl");if(!hl&&hr0){hl=document.createElement("nav");hl.id="hubl";hl.setAttribute("aria-label","更多");hr0.parentNode.insertBefore(hl,hr0)}if(hl&&!hl.querySelector('[data-a="tour"]'))hl.insertAdjacentHTML("beforeend",ib("tour","🎬","使用教學"));if(hl&&!hl.querySelector('[data-a="grade"]'))hl.insertAdjacentHTML("afterbegin",ib("grade","🎓","年級"));if(hl&&!hl.querySelector('[data-a="font"]'))hl.insertAdjacentHTML("beforeend",ib("font","🔤","字體"));fontApply(FONTI);gradeBtn();if(!PICKG)welcome(false);else if(!tourDone())setTimeout(()=>startTour(null),900)};
+const _abTour=window.__afterBuild;window.__afterBuild=()=>{_abTour&&_abTour();const hr0=$("hubr");let hl=$("hubl");if(!hl&&hr0){hl=document.createElement("nav");hl.id="hubl";hl.setAttribute("aria-label","更多");hr0.parentNode.insertBefore(hl,hr0)}if(hl&&!hl.querySelector('[data-a="tour"]'))hl.insertAdjacentHTML("beforeend",ib("tour","🎬","使用教學"));if(hl&&!hl.querySelector('[data-a="grade"]'))hl.insertAdjacentHTML("afterbegin",ib("grade","🎓","年級"));gradeBtn();if(!PICKG)welcome(false);else if(!tourDone())setTimeout(()=>startTour(null),900)};
 window.tGate=tGate;
 build();window.__afterBuild&&__afterBuild();(()=>{const M=$("menu"),sp=$("splash");let done=0;const go=()=>{if(done)return;done=1;M.classList.add("ready");if(sp){sp.classList.add("gone");setTimeout(()=>sp.remove(),500)}};const im=document.querySelector("#hubbg img:not(.bk)");if(im&&!im.complete){im.addEventListener("load",go);im.addEventListener("error",go)}else if(im&&im.decode){im.decode().then(go,go)}else go();setTimeout(go,4000)})();fgSet((()=>{try{return localStorage.getItem("rgFpos")||"b"}catch(e){return "b"}})());hubRefresh();try{if(CLS.list.length>1&&!sessionStorage.getItem("rgPicked"))openSheet("cls")}catch(e){}setInterval(()=>{if(!M.hidden){const m=$("rmic");m&&(m.textContent=micOn?"🎤 麥克風已開啟":"🎤 開啟麥克風",m.classList.toggle("on",!!micOn));roll()}},1500);
 })();

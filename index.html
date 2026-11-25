@@ -3,7 +3,7 @@
 <head><meta name="color-scheme" content="light only">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>直笛守護者</title>
+<title>音樂冒險王國</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&display=swap">
 <script>
 /* QRCode for JavaScript, Copyright (c) 2009 Kazuhiko Arase, MIT license. Bundled from qrcode-terminal vendor copy. */
@@ -1924,9 +1924,9 @@ button.rs{cursor:pointer}.rs.on{border-color:#4ade80}
 </head>
 <body>
 <script>setTimeout(function(){var m=document.getElementById("menu"),s=document.getElementById("splash");if(m&&!m.classList.contains("ready")){m.classList.add("ready");s&&s.remove()}},8000)</script>
-<div id="splash"><div><i>🎵</i><b>直笛守護者</b><span>載入中…</span></div></div>
+<div id="splash"><div><i>🎵</i><b>音樂冒險王國</b><span>載入中…</span></div></div>
 <main id="menu">
-  <h1>🎺 直笛守護者</h1>
+  <h1>🎺 音樂冒險王國</h1>
   <p class="sub">先按「開啟麥克風」。用真的直笛吹出正確的音高才算成功，趕走小怪獸守住城堡。建議在安靜的地方、一個人吹，並把喇叭音量調小或戴耳機。</p>
   <div class="set">
     <button id="micbtn">🎤 開啟麥克風</button><span class="pill" id="micst">未開啟</span><span class="pill" id="mtest" style="font-weight:500;flex-basis:100%;max-width:420px;font-variant-numeric:tabular-nums;min-height:42px;white-space:nowrap;overflow:hidden">🎤 開啟麥克風後，這裡會顯示偵測到的音</span><small id="micmsg" role="alert" style="flex-basis:100%;color:#c0392b;font-weight:700"></small>
@@ -2811,7 +2811,7 @@ function drawCert(cls,nm){const cv=$("certcv"),c=cv.getContext("2d"),W=1000,H=14
  t(cls||"＿＿＿＿＿＿",690,40,"#7a5a2a",S,560);t((nm||"＿＿＿＿＿＿")+" 同學",782,70,ac,S,580);
  t(CERT.prac?"完成直笛練習項目":"完成直笛挑戰曲目",866,32,"#6b3d08");t("《"+CERT.song+"》",934,52,"#4a2a05",F,580);
  t("★".repeat(CERT.stars)+"☆".repeat(3-CERT.stars)+"　得分 "+CERT.score,1000,40,"#c98a00",S,580);
- {const d=CERT.date,tn=teacherOf(cls),who=tn?"授課老師："+(/老師$/.test(tn)?tn:tn+"老師"):"直笛守護者・音樂課";t(`${d.getFullYear()} 年 ${d.getMonth()+1} 月 ${d.getDate()} 日　${who}`,1056,26,"#6b3d08",S,580)}}
+ {const d=CERT.date,tn=teacherOf(cls),who=tn?"授課老師："+(/老師$/.test(tn)?tn:tn+"老師"):"音樂冒險王國・音樂課";t(`${d.getFullYear()} 年 ${d.getMonth()+1} 月 ${d.getDate()} 日　${who}`,1056,26,"#6b3d08",S,580)}}
 function certOpen(){let m=$("certm");if(!CERT)return;
  if(!m){m=document.createElement("div");m.id="certm";m.innerHTML=`<div class="cp"><h2>🏅 領取證書</h2><div class="cf"><label>班級<input id="certcls" maxlength="12" placeholder="例如：六年一班" autocomplete="off"></label><label>姓名<input id="certnm" maxlength="10" placeholder="輸入自己的名字" autocomplete="off"></label></div><canvas id="certcv"></canvas><div class="opts"><button class="big" id="certdl">⬇ 下載證書</button><button id="certpr">🖨 列印</button><button id="certx">關閉</button></div></div>`;document.body.appendChild(m);
   const upd=()=>drawCert($("certcls").value.trim(),$("certnm").value.trim());$("certcls").oninput=()=>{try{localStorage.setItem("rgClass",$("certcls").value)}catch(e){}upd()};$("certnm").oninput=upd;
@@ -2836,7 +2836,7 @@ function tsetOpen(){let m=$("tset");
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!m.hidden){m.hidden=true;e.stopPropagation()}},true)}
  for(let g=3;g<=6;g++)$("tg"+g).value=TCHS[g]||TCH0[g]||"";m.hidden=false}
 $("tbtn").onclick=tsetOpen;
-function applyTheme(){document.documentElement.toggleAttribute("data-sp",SPC());document.documentElement.toggleAttribute("data-gd",GDC());const h=document.querySelector("#menu h1");if(h)h.textContent=SPC()?"🚀 直笛星際守護者":GDC()?"💰 直笛賺金幣":"🎺 直笛守護者";let w=$("wallet");if(!w&&h){w=document.createElement("div");w.id="wallet";w.className="pill";h.insertAdjacentElement("afterend",w)}if(w){let t=0;try{t=+localStorage.getItem("rgCoins")||0}catch(e){}w.textContent="💰 累計 "+t+" 金幣";w.hidden=!GDC()}try{localStorage.setItem("rgTheme",$("theme").value)}catch(e){}}
+function applyTheme(){document.documentElement.toggleAttribute("data-sp",SPC());document.documentElement.toggleAttribute("data-gd",GDC());const h=document.querySelector("#menu h1");if(h)h.textContent=SPC()?"🚀 直笛星際守護者":GDC()?"💰 直笛賺金幣":"🎺 音樂冒險王國";let w=$("wallet");if(!w&&h){w=document.createElement("div");w.id="wallet";w.className="pill";h.insertAdjacentElement("afterend",w)}if(w){let t=0;try{t=+localStorage.getItem("rgCoins")||0}catch(e){}w.textContent="💰 累計 "+t+" 金幣";w.hidden=!GDC()}try{localStorage.setItem("rgTheme",$("theme").value)}catch(e){}}
 try{const v=localStorage.getItem("rgTheme");if(v==="s"||v==="c"||v==="g")$("theme").value=v}catch(e){}
 $("theme").onchange=applyTheme;applyTheme();
 $("micbtn").onclick=async()=>{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume();await initMic()};
@@ -2928,7 +2928,7 @@ menu();requestAnimationFrame(frame);
 (function(){
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const today=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};
-let PF=Object.assign({name:"直笛守護者",exp:0,av:"🎺",own:["🎺"]},LS.get("rgProf",{}));
+let PF=Object.assign({name:"音樂冒險王國",exp:0,av:"🎺",own:["🎺"]},LS.get("rgProf",{}));
 let ST=LS.get("rgStat",{});if(!Array.isArray(ST.songs))ST.songs=[];
 let DY=LS.get("rgDaily",{});
 let SQ=LS.get("rgSide",{});
@@ -3205,7 +3205,7 @@ function renderPf(){const c=$("sh-pf").querySelector(".sc"),L=lvInfo();
  c.innerHTML=`<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><i class="av" style="width:96px;height:96px;font-size:56px">${AV(PF.av)}<b>Lv ${L.l}</b></i><div style="flex:1;min-width:220px"><label style="font-weight:900;font-size:18px">名字 <input id="pfin" maxlength="10" style="font-size:20px;width:min(260px,60vw)"></label><p style="margin:6px 0;font-weight:900;color:#8a5a00">稱號：${title(L.l)}　（下一個稱號：${(TITLES.find(t=>t[0]>L.l)||[0,"已是最高"])[1]}${TITLES.find(t=>t[0]>L.l)?"・Lv "+TITLES.find(t=>t[0]>L.l)[0]:""}）</p>${bar(L.e,L.n)}<small>EXP ${L.e} / ${L.n}</small></div></div>
  <div class="pfst">${[["完成曲子",ST.plays||0],["守護成功",ST.wins||0],["累積完美",ST.perfect||0],["最高連擊",ST.maxc||0],["長音滿分",ST.lok||0],["FEVER 次數",ST.fever||0],["星星總數",starSum()],["指法特訓",ST.fd||0],["小隊輪流",ST.team||0]].map(([a,b])=>`<div><b>${b}</b>${a}</div>`).join("")}</div>
  <p class="sub" style="margin-top:12px">進度存在這台裝置的瀏覽器裡。換平板或清除瀏覽資料會從頭開始。</p>`;
- const i=$("pfin");i.value=PF.name;i.oninput=()=>{PF.name=i.value.trim().slice(0,10)||"直笛守護者";LS.set("rgProf",PF);hubRefresh()}}
+ const i=$("pfin");i.value=PF.name;i.oninput=()=>{PF.name=i.value.trim().slice(0,10)||"音樂冒險王國";LS.set("rgProf",PF);hubRefresh()}}
 // ---- 追蹤條 ----
 function tracker(){const t=$("hqt");if(!t)return;roll();const dl=dailyList(),k=counts();let h;
  if(canSign())h=`<div class="hh">🎁 每日簽到</div><div class="hr"><b>今天還沒簽到，可以領 ${SIGN[SG.n%7]} 金幣</b><button class="qa claim" data-a="sign">簽到</button></div>`;
@@ -3536,7 +3536,7 @@ function startTour(after,role){if(!$("menu").classList.contains("ready")){setTim
  el.addEventListener("click",tourClick);addEventListener("resize",tourPlace);document.addEventListener("keydown",tourKey,true);
  role?tourShow():tourIntro()}
 function tourIntro(){const T=TOUR,el=T.el;el.classList.add("intro");T.tg=null;
- el.querySelector(".tu-bub").innerHTML=`<div class="tu-intro">${RMq?"":[..."♪♫♩♬♪♫"].map((n,i)=>`<span class="tu-note" style="--i:${i}">${n}</span>`).join("")}<small>歡迎使用</small><h2>${[..."直笛守護者"].map((c,i)=>`<span style="--i:${i}">${c}</span>`).join("")}</h2>
+ el.querySelector(".tu-bub").innerHTML=`<div class="tu-intro">${RMq?"":[..."♪♫♩♬♪♫"].map((n,i)=>`<span class="tu-note" style="--i:${i}">${n}</span>`).join("")}<small>歡迎使用</small><h2>${[..."音樂冒險王國"].map((c,i)=>`<span style="--i:${i}">${c}</span>`).join("")}</h2>
   <p>用真的直笛闖關的音樂遊戲。<br>先花 2 分鐘認識一下吧！</p>
   <div class="tu-role"><button data-role="t"><i>👩‍🏫</i><b>我是老師</b><small>完整導覽＋上課前設定</small></button><button data-role="s"><i>🧒</i><b>我是學生</b><small>快速認識遊戲</small></button></div>
   <button class="tu-skip" data-t="skip">先跳過，之後到「⚙️ 設定 → 🎬 使用教學」再看</button></div>`;
@@ -3600,8 +3600,8 @@ async function get(g,tok){g=g||M0.g;tok=tok||M0.tok;const r=await fetch(GH+"/gis
  for(const [name,f] of Object.entries(o.files||{})){if(!/^rg-/.test(name))continue;let txt=f.content;if(f.truncated&&f.raw_url){const rr=await fetch(f.raw_url,{cache:"no-store"});if(rr.ok)txt=await rr.text()}const v=J(txt);if(!v||!v.d)continue;
   if(name===CF)R.cfg=v;else{const m=/^rg-cls-(.+)\.json$/.exec(name);if(m)R.cls[m[1]]=v}}return R}
 async function sendFiles(files){const r=await fetch(GH+"/gists/"+encodeURIComponent(M0.g),{method:"PATCH",headers:Object.assign({"Content-Type":"application/json"},hdr(M0.tok)),body:JSON.stringify({files})});if(!r.ok)throw ghErr(r)}
-async function findGist(tok){try{for(let pg=1;pg<=3;pg++){const r=await fetch(GH+"/gists?per_page=100&page="+pg,{headers:hdr(tok),cache:"no-store"});if(!r.ok)return null;const L=await r.json();if(!Array.isArray(L)||!L.length)return null;const f=L.filter(x=>/直笛守護者 雲端同步資料/.test(x.description||"")||Object.keys(x.files||{}).some(n=>/^rg-(cfg|cls-)/.test(n))).sort((a,b)=>Date.parse(b.updated_at||0)-Date.parse(a.updated_at||0))[0];if(f)return f.id}}catch(e){}return null}
-async function createGist(tok){const r=await fetch(GH+"/gists",{method:"POST",headers:Object.assign({"Content-Type":"application/json"},hdr(tok)),body:JSON.stringify({description:"直笛守護者 雲端同步資料（請勿刪除）",public:false,files:{"README.md":{content:"# 直笛守護者 雲端同步資料\n\n這個 Gist 由「直笛守護者」遊戲自動建立，用來在不同平板之間同步老師設定與各班進度。請不要刪除或修改。\n"}}})});if(!r.ok)throw ghErr(r);return(await r.json()).id}
+async function findGist(tok){try{for(let pg=1;pg<=3;pg++){const r=await fetch(GH+"/gists?per_page=100&page="+pg,{headers:hdr(tok),cache:"no-store"});if(!r.ok)return null;const L=await r.json();if(!Array.isArray(L)||!L.length)return null;const f=L.filter(x=>/音樂冒險王國 雲端同步資料/.test(x.description||"")||Object.keys(x.files||{}).some(n=>/^rg-(cfg|cls-)/.test(n))).sort((a,b)=>Date.parse(b.updated_at||0)-Date.parse(a.updated_at||0))[0];if(f)return f.id}}catch(e){}return null}
+async function createGist(tok){const r=await fetch(GH+"/gists",{method:"POST",headers:Object.assign({"Content-Type":"application/json"},hdr(tok)),body:JSON.stringify({description:"音樂冒險王國 雲端同步資料（請勿刪除）",public:false,files:{"README.md":{content:"# 音樂冒險王國 雲端同步資料\n\n這個 Gist 由「音樂冒險王國」遊戲自動建立，用來在不同平板之間同步老師設定與各班進度。請不要刪除或修改。\n"}}})});if(!r.ok)throw ghErr(r);return(await r.json()).id}
 // ---- 本機資料 ----
 const CL=()=>{try{return JSON.parse(ls.getItem("rgClasses"))||{list:[]}}catch(e){return{list:[]}}};
 const bk=(id,k)=>"rgC:"+id+":"+k;
@@ -3661,7 +3661,7 @@ function draw(){const c=panel.querySelector(".sc");
  c.innerHTML=`<p class="sub" style="font-size:17px;line-height:1.7">連上同一個雲端的平板會共用：<br>📚 曲目、資料夾、任務曲目、證書老師名字<br>🏫 班級名單（建立班級後，其他平板也會看到）<br><small>資料存在您 GitHub 帳號裡一個不公開的 Gist。<b>學生的金幣、星星、扭蛋精靈不會同步</b>，仍然只存在各自那一台裝置上。老師密碼、主題、節拍器等「這台平板的設定」也不會同步。</small></p>
  ${on()?`<div class="qr done"><div class="qi">${state==="err"?"⚠️":"✅"}</div><div><div class="qt">已連上 GitHub 雲端</div><div class="qd">${state==="err"?`<span style="color:#c62828">暫時無法同步（${esc(lastErr)}）。資料會先存在這台平板，恢復後會自動補傳。</span>`:`上次同步：${tm(M0.at)}${waiting()?"　（有資料等待上傳）":""}`}</div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="qa claim" data-sy="now">🔄 立即同步</button><button class="qa" data-sy="qr">📱 連接其他平板</button><button class="qa" data-sy="off">中斷</button></div></div>${showQR?qrHTML():""}`
  :`<div class="syset"><h3>🅰 已經有平板連上了？</h3><p>在那台平板按「📱 連接其他平板」，用這台的相機掃 QR code 就好。沒有相機的話，把連線碼貼在這裡：</p><div class="syrow"><input id="syjc" placeholder="貼上連線碼" autocomplete="off"><button class="qa claim" data-sy="join">連線</button></div></div>
- <div class="syset"><h3>🅱 第一次設定，或「中斷後沒有連線碼」時重新連線</h3><ol><li>電腦登入 GitHub，打開 <b>github.com/settings/personal-access-tokens/new</b>。</li><li>Token name 填「直笛守護者」，Expiration 選最長的期限。</li><li>往下找到 <b>Permissions</b> → <b>Account permissions</b> → <b>Gists</b>，選 <b>Read and write</b>。其他都不用改。</li><li>按最下面的 <b>Generate token</b>，複製 <code>github_pat_</code> 開頭的那串，貼到下面。</li></ol><p style="color:#2e7d32;font-weight:900">💡 之前已經建立過雲端？貼上權杖後會自動找回原本的雲端資料，不會重新建一個新的。</p><ol style="display:none"></ol><div class="syrow"><input id="sytok" type="password" placeholder="貼上 github_pat_… 權杖" autocomplete="off"><button class="qa claim" data-sy="make">建立雲端</button></div></div>`}
+ <div class="syset"><h3>🅱 第一次設定，或「中斷後沒有連線碼」時重新連線</h3><ol><li>電腦登入 GitHub，打開 <b>github.com/settings/personal-access-tokens/new</b>。</li><li>Token name 填「音樂冒險王國」，Expiration 選最長的期限。</li><li>往下找到 <b>Permissions</b> → <b>Account permissions</b> → <b>Gists</b>，選 <b>Read and write</b>。其他都不用改。</li><li>按最下面的 <b>Generate token</b>，複製 <code>github_pat_</code> 開頭的那串，貼到下面。</li></ol><p style="color:#2e7d32;font-weight:900">💡 之前已經建立過雲端？貼上權杖後會自動找回原本的雲端資料，不會重新建一個新的。</p><ol style="display:none"></ol><div class="syrow"><input id="sytok" type="password" placeholder="貼上 github_pat_… 權杖" autocomplete="off"><button class="qa claim" data-sy="make">建立雲端</button></div></div>`}
  <div id="syask"></div>`}
 function ask(h){const a=panel.querySelector("#syask");a&&(a.innerHTML=h)}
 const err=m=>`<p style="color:#c62828;text-align:center;font-weight:900">${esc(m)}</p>`;
